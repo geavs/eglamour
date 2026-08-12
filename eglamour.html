@@ -450,8 +450,40 @@
       <h2>Çdo natë e veçantë,<br>një siluetë e përsosur.</h2>
       <div class="rule" style="margin-top:22px;"></div>
     </div>
-<div class="gallery reveal" id="gallery">
-</div>
+    <div class="gallery reveal">
+      <div class="g-item" data-caption="    Fustani i Kuq Gala — i kuq, i gjatë, elegant dhe me draperi.">
+        <img src="kuqe.jpg" alt="Fustan gala me pajete ari">
+        <div class="ring"></div><div class="g-caption">    Fustani i Kuq Gala</div>
+      </div>
+      <div class="g-item" data-caption="    Elegancë me Pika — fustani i bardhë me pika të zeza, i shkurtër.">
+        <img src="pikpik.jpg" alt="Fustan matura i kuq">
+        <div class="ring"></div><div class="g-caption">    Elegancë me Pika</div>
+      </div>
+      <div class="g-item" data-caption="    Misteri i Zi — fustani i gjatë i zi, shumë elegant.">
+        <img src="zeza.jpg" alt="Fustan bordo mëndafshi">
+        <div class="ring"></div><div class="g-caption">    Misteri i Zi</div>
+      </div>
+      <div class="g-item" data-caption="    Glamour i Kuq — fustani i kuq i gjatë, me prerje dhe draperi.">
+        <img src="dkuqe.jpg" alt="Fustane gala blu dhe bezhë">
+        <div class="ring"></div><div class="g-caption">Glamour i Kuq</div>
+      </div>
+      <div class="g-item" data-caption="    Hijeshi e Artë — fustani i verdhë i gjatë.">
+        <img src="verdh.jpg" alt="Fustan me stampa kafe">
+        <div class="ring"></div><div class="g-caption">Hijeshi e Artë</div>
+      </div>
+      <div class="g-item" data-caption="    Bluja Mbretërore — fustani blu i gjatë, me detaj të mbështjellë në pjesën e sipërme.">
+        <img src="blu.jpg" alt="Fustan gala blu mesnate">
+        <div class="ring"></div><div class="g-caption">Bluja Mbretërore</div>
+      </div>
+      <div class="g-item" data-caption="    Elegancë me Pika — fustani i zi/kafe me pika të bardha, më casual-chic.">
+        <img src="pika.jpg" alt="Fustan me pika polka">
+        <div class="ring"></div><div class="g-caption">Elegancë me Pika</div>
+      </div>
+      <div class="g-item" data-caption="    Shkëlqim Smeraldi — fustani i gjatë jeshil me temina dhe shkëlqim.">
+        <img src="jeshil.jpg" alt="Fustan gala rozë me pajete">
+        <div class="ring"></div><div class="g-caption">Shkëlqim Smeraldi</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -574,143 +606,5 @@
   document.addEventListener('keydown', (e) => { if(e.key === 'Escape') lb.classList.remove('open'); });
 </script>
 
-
-<script>
-  // =========================
-  // SUPABASE GALLERY
-  // =========================
-
-  const SUPABASE_URL = "https://mssafqnydjpuwypxlkfe.supabase.co";
-  const SUPABASE_BUCKET = "gallery";
-
-  const gallery = document.getElementById("gallery");
-
-  async function loadGallery() {
-    try {
-      const response = await fetch(
-        `${SUPABASE_URL}/storage/v1/object/list/${SUPABASE_BUCKET}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            prefix: "",
-            limit: 100,
-            offset: 0,
-            sortBy: {
-              column: "created_at",
-              order: "desc"
-            }
-          })
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Nuk u morën fotot nga Supabase.");
-      }
-
-      const files = await response.json();
-
-      gallery.innerHTML = "";
-
-      files
-        .filter(file => {
-          return /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name);
-        })
-        .forEach(file => {
-
-          const imageUrl =
-            `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_BUCKET}/${encodeURIComponent(file.name)}`;
-
-          const item = document.createElement("div");
-          item.className = "g-item";
-          item.dataset.caption = file.name;
-
-          item.innerHTML = `
-            <img src="${imageUrl}" alt="${file.name}">
-            <div class="ring"></div>
-            <div class="g-caption">${file.name}</div>
-          `;
-
-          gallery.appendChild(item);
-
-          // Lightbox për foton
-          item.addEventListener("click", () => {
-            lbImg.src = imageUrl;
-            lbImg.alt = file.name;
-            lbCap.textContent = file.name;
-            lb.classList.add("open");
-          });
-        });
-
-    } catch (error) {
-      console.error(error);
-      gallery.innerHTML = "<p style='text-align:center;color:#c9bfb2;'>Nuk u ngarkuan fotot.</p>";
-    }
-  }
-
-
-  // =========================
-  // NAV SCROLL
-  // =========================
-
-  const nav = document.getElementById("siteNav");
-
-  window.addEventListener("scroll", () => {
-    nav.classList.toggle("scrolled", window.scrollY > 40);
-  }, { passive: true });
-
-
-  // =========================
-  // REVEAL ON SCROLL
-  // =========================
-
-  const revealEls = document.querySelectorAll(".reveal");
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add("in");
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: .15 });
-
-  revealEls.forEach(el => io.observe(el));
-
-
-  // =========================
-  // LIGHTBOX
-  // =========================
-
-  const lb = document.getElementById("lightbox");
-  const lbImg = document.getElementById("lbImg");
-  const lbCap = document.getElementById("lbCap");
-
-  document.getElementById("lbClose").addEventListener("click", () => {
-    lb.classList.remove("open");
-  });
-
-  lb.addEventListener("click", (e) => {
-    if (e.target === lb) {
-      lb.classList.remove("open");
-    }
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      lb.classList.remove("open");
-    }
-  });
-
-
-  // =========================
-  // LOAD PHOTOS
-  // =========================
-
-  loadGallery();
-</script>
-  
 </body>
 </html>
