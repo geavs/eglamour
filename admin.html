@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Eglamour — Admin</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:#0c0a0b;
+  color:#f4ede1;
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+  padding:30px 20px;
+}
+
+.container{
+  max-width:1000px;
+  margin:auto;
+}
+
+h1{
+  font-family:Georgia,serif;
+  font-size:38px;
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:#c9bfb2;
+  margin-bottom:35px;
+}
+
+.card{
+  background:#161215;
+  border:1px solid rgba(201,164,99,.25);
+  padding:25px;
+  border-radius:8px;
+  margin-bottom:25px;
+}
+
+h2{
+  font-family:Georgia,serif;
+  margin-bottom:20px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-bottom:12px;
+  background:#0c0a0b;
+  border:1px solid #3b3337;
+  color:white;
+  border-radius:4px;
+}
+
+button{
+  padding:13px 22px;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.login-btn,
+.upload-btn{
+  background:#e7cfa0;
+  color:#0c0a0b;
+}
+
+.logout-btn{
+  background:#2a2226;
+  color:#f4ede1;
+  margin-top:15px;
+}
+
+#adminPanel{
+  display:none;
+}
+
+.file-input{
+  margin-top:10px;
+}
+
+#status{
+  margin-top:15px;
+  color:#e7cfa0;
+}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:12px;
+  margin-top:20px;
+}
+
+.photo{
+  position:relative;
+  aspect-ratio:3/4;
+  overflow:hidden;
+  border-radius:5px;
+  background:#0c0a0b;
+}
+
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.delete{
+  position:absolute;
+  top:8px;
+  right:8px;
+  background:#0c0a0b;
+  color:white;
+  padding:7px 10px;
+  font-size:12px;
+}
+
+.hidden{
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Eglamour</h1>
+  <p class="subtitle">Paneli i menaxhimit të koleksionit</p>
+
+
+  <!-- LOGIN -->
+
+  <div class="card" id="loginPanel">
+
+    <h2>Hyr në panel</h2>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Email"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+    >
+
+    <button class="login-btn" onclick="login()">
+      Hyr
+    </button>
+
+    <p id="loginStatus"></p>
+
+  </div>
+
+
+  <!-- ADMIN -->
+
+  <div id="adminPanel">
+
+    <div class="card">
+
+      <h2>Shto foto</h2>
+
+      <p style="color:#c9bfb2;margin-bottom:15px;">
+        Zgjidh një ose disa foto njëherësh.
+      </p>
+
+      <input
+        class="file-input"
+        type="file"
+        id="files"
+        accept="image/*"
+        multiple
+      >
+
+      <br>
+
+      <button class="upload-btn" onclick="uploadImages()">
+        Ngarko fotot
+      </button>
+
+      <p id="status"></p>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2>Fotot e koleksionit</h2>
+
+      <div id="gallery" class="gallery"></div>
+
+    </div>
+
+
+    <button class="logout-btn" onclick="logout()">
+      Dil nga paneli
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://mssafqnydjpuwypxlkfe.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_C1EU2sQMWoxaQzpqVa0KlQ_mqix8KyF";
+
+const supabaseClient =
+supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+// LOGIN
+
+async function login(){
+
+  const email =
+    document.getElementById("email").value;
+
+  const password =
+    document.getElementById("password").value;
+
+  const status =
+    document.getElementById("loginStatus");
+
+  status.textContent="Duke hyrë...";
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if(error){
+
+    status.textContent =
+      "Gabim: " + error.message;
+
+    return;
+  }
+
+  document.getElementById("loginPanel").style.display="none";
+
+  document.getElementById("adminPanel").style.display="block";
+
+  loadGallery();
+}
+
+
+// CHECK LOGIN
+
+async function checkLogin(){
+
+  const { data } =
+    await supabaseClient.auth.getSession();
+
+  if(data.session){
+
+    document.getElementById("loginPanel").style.display="none";
+
+    document.getElementById("adminPanel").style.display="block";
+
+    loadGallery();
+  }
+}
+
+
+// UPLOAD
+
+async function uploadImages(){
+
+  const input =
+    document.getElementById("files");
+
+  const status =
+    document.getElementById("status");
+
+  if(!input.files.length){
+
+    status.textContent =
+      "Zgjidh të paktën një foto.";
+
+    return;
+  }
+
+  status.textContent =
+    "Duke ngarkuar fotot...";
+
+  for(const file of input.files){
+
+    const fileName =
+      Date.now() + "-" +
+      Math.random().toString(36).substring(2,8) +
+      "-" +
+      file.name;
+
+    const { error } =
+      await supabaseClient.storage
+      .from("gallery")
+      .upload(fileName,file);
+
+    if(error){
+
+      console.error(error);
+
+      status.textContent =
+        "Gabim gjatë ngarkimit.";
+
+      return;
+    }
+  }
+
+  status.textContent =
+    "Fotot u ngarkuan me sukses!";
+
+  input.value="";
+
+  loadGallery();
+}
+
+
+// LOAD GALLERY
+
+async function loadGallery(){
+
+  const gallery =
+    document.getElementById("gallery");
+
+  gallery.innerHTML =
+    "Duke ngarkuar...";
+
+  const { data, error } =
+    await supabaseClient.storage
+    .from("gallery")
+    .list("",{
+      limit:100,
+      sortBy:{
+        column:"created_at",
+        order:"desc"
+      }
+    });
+
+  if(error){
+
+    gallery.innerHTML =
+      "Gabim gjatë marrjes së fotove.";
+
+    console.error(error);
+
+    return;
+  }
+
+  gallery.innerHTML="";
+
+  data.forEach(file => {
+
+    if(!file.name) return;
+
+    const { data:urlData } =
+      supabaseClient.storage
+      .from("gallery")
+      .getPublicUrl(file.name);
+
+    const div =
+      document.createElement("div");
+
+    div.className="photo";
+
+    div.innerHTML=`
+
+      <img src="${urlData.publicUrl}">
+
+      <button
+        class="delete"
+        onclick="deleteImage('${file.name}')"
+      >
+        Fshi
+      </button>
+
+    `;
+
+    gallery.appendChild(div);
+
+  });
+
+}
+
+
+// DELETE
+
+async function deleteImage(fileName){
+
+  if(!confirm("Ta fshijmë këtë foto?"))
+    return;
+
+  const { error } =
+    await supabaseClient.storage
+    .from("gallery")
+    .remove([fileName]);
+
+  if(error){
+
+    alert("Gabim gjatë fshirjes.");
+
+    console.error(error);
+
+    return;
+  }
+
+  loadGallery();
+}
+
+
+// LOGOUT
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  location.reload();
+}
+
+
+checkLogin();
+
+</script>
+
+</body>
+</html>
