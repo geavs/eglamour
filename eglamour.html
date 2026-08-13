@@ -3,2356 +3,619 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Eglamour -- Classic. Elegant. Egla.</title>
-
-<meta name="description" content="Eglamour -- butik fustanesh elegante mbrëmjeje & maturash në Lushnjë. Elegancë, stil dhe cilësi në çdo detaj.">
-
+<meta name="description" content="Eglamour -- butik fustanesh elegante mbrëmjeje &amp; maturash në Lushnjë. Elegancë, stil dhe cilësi në çdo detaj.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  
-
 <style>
-
-:root{
-  --ink:#0c0a0b;
-  --panel:#161215;
-  --panel-2:#1d181b;
-  --ivory:#f4ede1;
-  --ivory-dim:#c9bfb2;
-  --gold:#c9a463;
-  --gold-soft:#e7cfa0;
-
-  --grad:
-    linear-gradient(
-      115deg,
-      #f5a623 0%,
-      #ec2f8e 52%,
-      #8e2de2 100%
-    );
-
-  --serif:'Cormorant Garamond',serif;
-  --display:'Italiana',serif;
-  --sans:'Montserrat',sans-serif;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  background:var(--ink);
-  color:var(--ivory);
-  font-family:var(--sans);
-  font-weight:300;
-  overflow-x:hidden;
-}
-
-a{
-  color:inherit;
-  text-decoration:none;
-}
-
-img{
-  display:block;
-  max-width:100%;
-}
-
-::selection{
-  background:var(--gold);
-  color:#0c0a0b;
-}
-
-:focus-visible{
-  outline:2px solid var(--gold-soft);
-  outline-offset:4px;
-}
-
-.wrap{
-  max-width:1180px;
-  margin:0 auto;
-  padding:0 32px;
-}
-
-.eyebrow{
-  font-family:var(--sans);
-  font-size:11px;
-  letter-spacing:.32em;
-  text-transform:uppercase;
-  color:var(--gold-soft);
-  font-weight:500;
-}
-
-
-/* =========================
-   NAV
-========================= */
-
-header.nav{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:100;
-
-  background:rgba(12,10,11,0);
-
-  border-bottom:1px solid rgba(244,237,225,0);
-
-  transition:
-    background .4s ease,
-    border-color .4s ease,
-    padding .4s ease;
-
-  padding:22px 0;
-}
-
-header.nav.scrolled{
-  background:rgba(12,10,11,.86);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(201,164,99,.18);
-  padding:14px 0;
-}
-
-.nav-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.nav-brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-
-  font-family:var(--display);
-  font-size:19px;
-  letter-spacing:.06em;
-}
-
-.nav-brand img{
-  width:40px;
-  height:40px;
-  border-radius:0;
-  object-fit:contain;
-}
-
-.nav-links{
-  display:flex;
-  gap:38px;
-
-  font-size:11px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-}
-
-.nav-links a{
-  opacity:.78;
-  transition:opacity .25s;
-}
-
-.nav-links a:hover{
-  opacity:1;
-}
-
-.nav-cta{
-  font-size:11px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-
-  border:1px solid rgba(201,164,99,.5);
-
-  padding:10px 20px;
-  border-radius:2px;
-
-  transition:
-    border-color .25s,
-    background .25s;
-}
-
-.nav-cta:hover{
-  border-color:var(--gold);
-  background:rgba(201,164,99,.08);
-}
-
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-  position:relative;
-
-  min-height:100svh;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  text-align:center;
-
-  padding:140px 24px 80px;
-
-  overflow:hidden;
-}
-
-.hero::before{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  background:
-    radial-gradient(
-      ellipse 60% 45% at 50% 8%,
-      rgba(236,47,142,.10),
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse 50% 40% at 85% 85%,
-      rgba(142,45,226,.10),
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse 50% 40% at 10% 90%,
-      rgba(245,166,35,.08),
-      transparent 60%
-    );
-
-  pointer-events:none;
-}
-
-.hero-ring{
-  position:relative;
-
-  width:132px;
-  height:auto;
-
-  border-radius:0;
-
-  padding:0;
-
-  background:none;
-
-  margin:0 auto 34px;
-
-  opacity:0;
-
-  animation:fadeUp 1s ease .15s forwards;
-}
-
-.hero-ring img{
-  width:132px;
-  height:auto;
-
-  border-radius:0;
-
-  object-fit:contain;
-
-  background:transparent;
-}
-
-.hero h1{
-  font-family:var(--display);
-
-  font-size:clamp(48px,9vw,108px);
-
-  letter-spacing:.03em;
-
-  line-height:.98;
-
-  color:var(--ivory);
-
-  opacity:0;
-
-  animation:fadeUp 1s ease .3s forwards;
-}
-
-.hero .tag{
-  font-family:var(--serif);
-  font-style:italic;
-
-  font-size:clamp(15px,2vw,19px);
-
-  color:var(--gold-soft);
-
-  letter-spacing:.05em;
-
-  margin-top:16px;
-
-  opacity:0;
-
-  animation:fadeUp 1s ease .45s forwards;
-}
-
-.hero .quote{
-  max-width:560px;
-
-  margin:34px auto 0;
-
-  font-family:var(--serif);
-
-  font-size:clamp(19px,2.6vw,25px);
-
-  line-height:1.5;
-
-  color:var(--ivory);
-
-  opacity:0;
-
-  animation:fadeUp 1s ease .6s forwards;
-}
-
-.hero-actions{
-  margin-top:44px;
-
-  display:flex;
-  gap:18px;
-
-  flex-wrap:wrap;
-
-  justify-content:center;
-
-  opacity:0;
-
-  animation:fadeUp 1s ease .75s forwards;
-}
-
-.btn{
-  font-size:11px;
-
-  letter-spacing:.16em;
-
-  text-transform:uppercase;
-
-  padding:16px 34px;
-
-  border-radius:2px;
-
-  display:inline-flex;
-
-  align-items:center;
-
-  gap:10px;
-
-  transition:
-    transform .3s ease,
-    box-shadow .3s ease,
-    opacity .3s ease;
-}
-
-.btn-primary{
-  background:var(--grad);
-
-  color:#0c0a0b;
-
-  font-weight:600;
-}
-
-.btn-primary:hover{
-  transform:translateY(-2px);
-
-  box-shadow:
-    0 14px 30px -12px
-    rgba(236,47,142,.55);
-}
-
-.btn-outline{
-  border:1px solid rgba(244,237,225,.35);
-}
-
-.btn-outline:hover{
-  border-color:var(--gold);
-
-  background:rgba(201,164,99,.08);
-
-  transform:translateY(-2px);
-}
-
-.scroll-cue{
-  position:absolute;
-
-  bottom:34px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  font-size:10px;
-
-  letter-spacing:.28em;
-
-  text-transform:uppercase;
-
-  color:var(--ivory-dim);
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  gap:10px;
-
-  opacity:0;
-
-  animation:fadeUp 1s ease 1s forwards;
-}
-
-.scroll-cue .line{
-  width:1px;
-  height:38px;
-
-  background:
-    linear-gradient(
-      var(--gold),
-      transparent
-    );
-
-  animation:pulseLine 2.2s ease-in-out infinite;
-}
-
-@keyframes fadeUp{
-  from{
-    opacity:0;
-    transform:translateY(18px);
+  :root{
+    --ink:#0c0a0b;
+    --panel:#161215;
+    --panel-2:#1d181b;
+    --ivory:#f4ede1;
+    --ivory-dim:#c9bfb2;
+    --gold:#c9a463;
+    --gold-soft:#e7cfa0;
+    --grad: linear-gradient(115deg, #f5a623 0%, #ec2f8e 52%, #8e2de2 100%);
+    --grad-soft: linear-gradient(115deg, rgba(245,166,35,.55) 0%, rgba(236,47,142,.55) 52%, rgba(142,45,226,.55) 100%);
+    --serif: 'Cormorant Garamond', serif;
+    --display: 'Italiana', serif;
+    --sans: 'Montserrat', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--ivory);
+    font-family:var(--sans);
+    font-weight:300;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+
+  ::selection{background:var(--gold); color:#0c0a0b;}
+
+  :focus-visible{
+    outline:2px solid var(--gold-soft);
+    outline-offset:4px;
   }
 
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-@keyframes pulseLine{
-  0%,100%{
-    opacity:.3;
-  }
-
-  50%{
-    opacity:1;
-  }
-}
-
-
-/* =========================
-   SECTIONS
-========================= */
-
-.section{
-  padding:120px 0;
-}
-
-.section-head{
-  max-width:640px;
-
-  margin:0 auto 64px;
-
-  text-align:center;
-}
-
-.section-head h2{
-  font-family:var(--display);
-
-  font-size:clamp(32px,4.6vw,52px);
-
-  margin-top:14px;
-
-  letter-spacing:.02em;
-}
-
-.section-head p{
-  font-family:var(--serif);
-
-  font-size:18px;
-
-  color:var(--ivory-dim);
-
-  margin-top:16px;
-
-  line-height:1.6;
-}
-
-.rule{
-  width:56px;
-  height:1px;
-
-  margin:0 auto;
-
-  background:var(--grad);
-}
-
-
-/* =========================
-   ABOUT
-========================= */
-
-.about{
-  background:var(--panel);
-
-  position:relative;
-}
-
-.about-grid{
-  display:grid;
-
-  grid-template-columns:
-    1fr 1.1fr;
-
-  gap:70px;
-
-  align-items:center;
-}
-
-.about-copy .eyebrow{
-  margin-bottom:18px;
-  display:block;
-}
-
-.about-copy h2{
-  font-family:var(--display);
-
-  font-size:clamp(30px,4vw,44px);
-
-  line-height:1.15;
-
-  margin-bottom:24px;
-}
-
-.about-copy p{
-  font-size:15.5px;
-
-  line-height:1.85;
-
-  color:var(--ivory-dim);
-
-  font-weight:300;
-
-  margin-bottom:18px;
-}
-
-.about-stats{
-  display:flex;
-
-  gap:44px;
-
-  margin-top:36px;
-}
-
-.about-stats div strong{
-  display:block;
-
-  font-family:var(--display);
-
-  font-size:30px;
-
-  color:var(--gold-soft);
-}
-
-.about-stats div span{
-  font-size:11px;
-
-  letter-spacing:.1em;
-
-  text-transform:uppercase;
-
-  color:var(--ivory-dim);
-}
-
-.about-frame{
-  position:relative;
-
-  border-radius:4px;
-
-  overflow:hidden;
-}
-
-.about-frame::before{
-  content:"";
-
-  position:absolute;
-
-  inset:-14px;
-
-  z-index:0;
-
-  background:var(--grad);
-
-  border-radius:8px;
-
-  opacity:.65;
-
-  filter:blur(2px);
-}
-
-.about-frame img{
-  position:relative;
-
-  z-index:1;
-
-  border-radius:4px;
-
-  width:100%;
-
-  height:560px;
-
-  object-fit:cover;
-
-  object-position:top;
-}
-
-
-/* =========================
-   COLLECTION
-========================= */
-
-.collection{
-  background:var(--ink);
-}
-
-.gallery{
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:6px;
-}
-
-.g-item{
-  position:relative;
-
-  overflow:hidden;
-
-  cursor:pointer;
-
-  aspect-ratio:3/4;
-}
-
-.g-item img{
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
-
-  object-position:top;
-
-  transition:
-    transform .7s cubic-bezier(.2,.7,.2,1),
-    filter .5s;
-
-  filter:
-    saturate(.92)
-    contrast(1.02);
-}
-
-.g-item .ring{
-  position:absolute;
-
-  inset:0;
-
-  box-shadow:
-    inset 0 0 0 0 transparent;
-
-  transition:
-    box-shadow .4s ease;
-
-  pointer-events:none;
-
-  z-index:2;
-}
-
-.g-item::after{
-  content:"";
-
-  position:absolute;
-
-  inset:0;
-
-  background:
-    linear-gradient(
-      to top,
-      rgba(12,10,11,.86) 0%,
-      rgba(12,10,11,0) 46%
-    );
-
-  opacity:.75;
-
-  transition:opacity .4s;
-
-  pointer-events:none;
-}
-
-.g-caption{
-  position:absolute;
-
-  left:18px;
-  right:18px;
-  bottom:16px;
-
-  z-index:3;
-
-  font-family:var(--serif);
-
-  font-style:italic;
-
-  font-size:16px;
-
-  color:var(--ivory);
-
-  transform:translateY(6px);
-
-  opacity:.9;
-
-  transition:
-    transform .4s,
-    opacity .4s;
-}
-
-.g-item:hover img{
-  transform:scale(1.08);
-}
-
-.g-item:hover .ring{
-  box-shadow:
-    inset 0 0 0 2px
-    rgba(236,47,142,.55);
-}
-
-.g-item:hover .g-caption{
-  transform:translateY(0);
-  opacity:1;
-}
-
-
-/* =========================
-   WHY
-========================= */
-
-.why{
-  background:var(--panel);
-}
-
-.why-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:1px;
-
-  background:
-    rgba(244,237,225,.08);
-
-  border:
-    1px solid
-    rgba(244,237,225,.08);
-}
-
-.why-item{
-  background:var(--panel);
-
-  padding:52px 40px;
-
-  text-align:center;
-}
-
-.why-item .mark{
-  width:44px;
-  height:44px;
-
-  margin:0 auto 26px;
-
-  border-radius:50%;
-
-  background:var(--grad);
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  font-family:var(--display);
-
-  font-size:19px;
-
-  color:#0c0a0b;
-}
-
-.why-item h3{
-  font-family:var(--display);
-
-  font-size:22px;
-
-  margin-bottom:14px;
-
-  letter-spacing:.02em;
-}
-
-.why-item p{
-  color:var(--ivory-dim);
-
-  font-size:14.5px;
-
-  line-height:1.75;
-}
-
-
-/* =========================
-   QUOTE
-========================= */
-
-.quote-band{
-  padding:130px 24px;
-
-  text-align:center;
-
-  position:relative;
-
-  background:var(--ink);
-}
-
-.quote-band blockquote{
-  max-width:760px;
-
-  margin:0 auto;
-
-  font-family:var(--serif);
-
-  font-style:italic;
-
-  font-size:clamp(24px,4vw,38px);
-
-  line-height:1.45;
-
-  color:var(--ivory);
-}
-
-.quote-band cite{
-  display:block;
-
-  margin-top:28px;
-
-  font-style:normal;
-
-  font-family:var(--sans);
-
-  font-size:11px;
-
-  letter-spacing:.2em;
-
-  text-transform:uppercase;
-
-  color:var(--gold-soft);
-}
-
-
-/* =========================
-   CONTACT
-========================= */
-
-.contact{
-  background:var(--panel-2);
-}
-
-.contact-grid{
-  display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:0;
-
-  border:
-    1px solid
-    rgba(244,237,225,.1);
-}
-
-.contact-info{
-  padding:64px;
-}
-
-.contact-info .eyebrow{
-  margin-bottom:16px;
-  display:block;
-}
-
-.contact-info h2{
-  font-family:var(--display);
-
-  font-size:clamp(28px,4vw,40px);
-
-  margin-bottom:30px;
-}
-
-.info-row{
-  display:flex;
-
-  gap:18px;
-
-  padding:20px 0;
-
-  border-top:
-    1px solid
-    rgba(244,237,225,.1);
-}
-
-.info-row:last-of-type{
-  border-bottom:
-    1px solid
-    rgba(244,237,225,.1);
-}
-
-.info-row .k{
-  width:24px;
-
-  flex-shrink:0;
-
-  font-family:var(--display);
-
-  color:var(--gold-soft);
-
-  font-size:18px;
-
-  padding-top:2px;
-}
-
-.info-row .v strong{
-  display:block;
-
-  font-size:14px;
-
-  letter-spacing:.06em;
-
-  text-transform:uppercase;
-
-  margin-bottom:4px;
-}
-
-.info-row .v span{
-  font-size:14.5px;
-
-  color:var(--ivory-dim);
-
-  line-height:1.6;
-}
-
-.contact-actions{
-  display:flex;
-
-  gap:16px;
-
-  margin-top:36px;
-
-  flex-wrap:wrap;
-}
-
-.map-frame{
-  position:relative;
-
-  min-height:420px;
-}
-
-.map-frame iframe{
-  width:100%;
-
-  height:100%;
-
-  min-height:420px;
-
-  border:0;
-
-  filter:
-    grayscale(.4)
-    invert(.92)
-    contrast(.9);
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-  padding:56px 0 36px;
-
-  background:var(--ink);
-
-  border-top:
-    1px solid
-    rgba(244,237,225,.08);
-}
-
-.footer-inner{
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  flex-wrap:wrap;
-
-  gap:24px;
-}
-
-.footer-brand{
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
-  font-family:var(--display);
-
-  font-size:17px;
-}
-
-.footer-brand img{
-  width:30px;
-  height:30px;
-
-  object-fit:contain;
-}
-
-.footer-links{
-  display:flex;
-
-  gap:30px;
-
-  font-size:11px;
-
-  letter-spacing:.14em;
-
-  text-transform:uppercase;
-
-  color:var(--ivory-dim);
-}
-
-.footer-links a:hover{
-  color:var(--gold-soft);
-}
-
-.footer-bottom{
-  margin-top:34px;
-
-  padding-top:24px;
-
-  border-top:
-    1px solid
-    rgba(244,237,225,.06);
-
-  font-size:12px;
-
-  color:var(--ivory-dim);
-
-  text-align:center;
-}
-
-
-/* =========================
-   REVEAL
-========================= */
-
-.reveal{
-  opacity:0;
-
-  transform:translateY(28px);
-
-  transition:
-    opacity .8s ease,
-    transform .8s ease;
-}
-
-.reveal.in{
-  opacity:1;
-
-  transform:translateY(0);
-}
-
-
-/* =========================
-   LIGHTBOX
-========================= */
-
-.lightbox{
-  position:fixed;
-
-  inset:0;
-
-  background:rgba(8,6,7,.94);
-
-  z-index:999;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  padding:40px;
-
-  opacity:0;
-
-  pointer-events:none;
-
-  transition:opacity .35s ease;
-}
-
-.lightbox.open{
-  opacity:1;
-
-  pointer-events:auto;
-}
-
-.lightbox img{
-  max-height:86vh;
-
-  max-width:min(90vw,560px);
-
-  border-radius:4px;
-
-  box-shadow:
-    0 30px 80px -20px
-    rgba(0,0,0,.7);
-}
-
-.lightbox .lb-close{
-  position:absolute;
-
-  top:28px;
-  right:36px;
-
-  font-size:14px;
-
-  letter-spacing:.14em;
-
-  text-transform:uppercase;
-
-  cursor:pointer;
-
-  color:var(--ivory-dim);
-
-  transition:color .2s;
-}
-
-.lightbox .lb-close:hover{
-  color:var(--gold-soft);
-}
-
-.lightbox .lb-cap{
-  position:absolute;
-
-  bottom:36px;
-
-  left:50%;
-
-  transform:translateX(-50%);
-
-  font-family:var(--serif);
-
-  font-style:italic;
-
-  font-size:16px;
-
-  color:var(--ivory-dim);
-
-  text-align:center;
-
-  width:90%;
-}
-
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:900px){
-
-  .nav-links{
-    display:none;
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+  .eyebrow{
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    font-weight:500;
   }
 
-  .about-grid{
-    grid-template-columns:1fr;
-
-    gap:44px;
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(12,10,11,0);
+    border-bottom:1px solid rgba(244,237,225,0);
+    transition:background .4s ease, border-color .4s ease, padding .4s ease;
+    padding:22px 0;
   }
-
-  .about-frame img{
-    height:420px;
+  header.nav.scrolled{
+    background:rgba(12,10,11,.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(201,164,99,.18);
+    padding:14px 0;
   }
-
-  .gallery{
-    grid-template-columns:
-      repeat(2,1fr);
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;}
+  .nav-brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:19px;letter-spacing:.06em;}
+  .nav-brand img{
+    width:40px;
+    height:40px;
+    border-radius:0;
+    object-fit:contain;
   }
-
-  .why-grid{
-    grid-template-columns:1fr;
+  .nav-links{display:flex;gap:38px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;}
+  .nav-links a{opacity:.78;transition:opacity .25s;position:relative;}
+  .nav-links a:hover{opacity:1;}
+  .nav-cta{
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    border:1px solid rgba(201,164,99,.5); padding:10px 20px; border-radius:2px;
+    transition:border-color .25s, background .25s;
   }
+  .nav-cta:hover{border-color:var(--gold); background:rgba(201,164,99,.08);}
 
-  .contact-grid{
-    grid-template-columns:1fr;
-  }
-
-  .map-frame{
-    min-height:320px;
-  }
-
-  .section{
-    padding:84px 0;
-  }
-
-}
-
-@media(max-width:600px){
-
-  .wrap{
-    padding:0 18px;
-  }
-
+  /* ---------- HERO ---------- */
   .hero{
-    padding-left:18px;
-    padding-right:18px;
-  }
-
-  .about-stats{
-    gap:18px;
-    flex-wrap:wrap;
-  }
-
-  .about-stats div{
-    min-width:80px;
-  }
-
-  .contact-info{
-    padding:40px 24px;
-  }
-
-  .contact-actions .btn{
-    width:100%;
+    position:relative;
+    min-height:100svh;
+    display:flex;
+    align-items:center;
     justify-content:center;
-  }
-
-  .footer-inner{
-    flex-direction:column;
     text-align:center;
+    padding:140px 24px 80px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 60% 45% at 50% 8%, rgba(236,47,142,.10), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 85% 85%, rgba(142,45,226,.10), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 10% 90%, rgba(245,166,35,.08), transparent 60%);
+    pointer-events:none;
   }
 
-  .footer-links{
-    flex-wrap:wrap;
-    justify-content:center;
+  .hero-ring{
+    position:relative;
+    width:132px;
+    height:auto;
+    border-radius:0;
+    padding:0;
+    background:none;
+    margin:0 auto 34px;
+    opacity:0;
+    animation:fadeUp 1s ease .15s forwards;
   }
 
-}
+  .hero-ring img{
+    width:132px;
+    height:auto;
+    border-radius:0;
+    object-fit:contain;
+    background:transparent;
+  }
+  .hero h1{
+    font-family:var(--display);
+    font-size:clamp(48px, 9vw, 108px);
+    letter-spacing:.03em;
+    line-height:.98;
+    color:var(--ivory);
+    opacity:0;
+    animation:fadeUp 1s ease .3s forwards;
+  }
+  .hero .tag{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:clamp(15px, 2vw, 19px);
+    color:var(--gold-soft);
+    letter-spacing:.05em;
+    margin-top:16px;
+    opacity:0;
+    animation:fadeUp 1s ease .45s forwards;
+  }
+  .hero .quote{
+    max-width:560px;
+    margin:34px auto 0;
+    font-family:var(--serif);
+    font-size:clamp(19px,2.6vw,25px);
+    line-height:1.5;
+    color:var(--ivory);
+    opacity:0;
+    animation:fadeUp 1s ease .6s forwards;
+  }
+  .hero-actions{
+    margin-top:44px;
+    display:flex; gap:18px; flex-wrap:wrap; justify-content:center;
+    opacity:0;
+    animation:fadeUp 1s ease .75s forwards;
+  }
+  .btn{
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    padding:16px 34px; border-radius:2px;
+    display:inline-flex; align-items:center; gap:10px;
+    transition:transform .3s ease, box-shadow .3s ease, opacity .3s ease;
+  }
+  .btn-primary{
+    background:var(--grad); color:#0c0a0b; font-weight:600;
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 30px -12px rgba(236,47,142,.55);}
+  .btn-outline{
+    border:1px solid rgba(244,237,225,.35);
+  }
+  .btn-outline:hover{border-color:var(--gold); background:rgba(201,164,99,.08); transform:translateY(-2px);}
 
-@media(prefers-reduced-motion:reduce){
+  .scroll-cue{
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
+    font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:var(--ivory-dim);
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    opacity:0; animation:fadeUp 1s ease 1s forwards;
+  }
+  .scroll-cue .line{width:1px;height:38px;background:linear-gradient(var(--gold),transparent); animation:pulseLine 2.2s ease-in-out infinite;}
 
-  *{
-    animation-duration:.01ms !important;
+  @keyframes fadeUp{from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);}}
+  @keyframes pulseLine{0%,100%{opacity:.3;} 50%{opacity:1;}}
 
-    animation-iteration-count:1 !important;
-
-    transition-duration:.01ms !important;
+  /* ---------- SECTION HEADERS ---------- */
+  .section{padding:120px 0;}
+  .section-head{max-width:640px; margin:0 auto 64px; text-align:center;}
+  .section-head h2{
+    font-family:var(--display);
+    font-size:clamp(32px,4.6vw,52px);
+    margin-top:14px;
+    letter-spacing:.02em;
+  }
+  .section-head p{
+    font-family:var(--serif); font-size:18px; color:var(--ivory-dim);
+    margin-top:16px; line-height:1.6;
+  }
+  .rule{
+    width:56px;height:1px;margin:0 auto;
+    background:var(--grad);
   }
 
-  html{
-    scroll-behavior:auto;
+  /* ---------- ABOUT ---------- */
+  .about{background:var(--panel); position:relative;}
+  .about-grid{
+    display:grid; grid-template-columns:1fr 1.1fr; gap:70px; align-items:center;
+  }
+  .about-copy .eyebrow{margin-bottom:18px; display:block;}
+  .about-copy h2{
+    font-family:var(--display); font-size:clamp(30px,4vw,44px); line-height:1.15; margin-bottom:24px;
+  }
+  .about-copy p{
+    font-size:15.5px; line-height:1.85; color:var(--ivory-dim); font-weight:300; margin-bottom:18px;
+  }
+  .about-stats{display:flex; gap:44px; margin-top:36px;}
+  .about-stats div strong{
+    display:block; font-family:var(--display); font-size:30px; color:var(--gold-soft);
+  }
+  .about-stats div span{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ivory-dim);}
+  .about-frame{
+    position:relative; border-radius:4px; overflow:hidden;
+  }
+  .about-frame::before{
+    content:""; position:absolute; inset:-14px; z-index:0;
+    background:var(--grad); border-radius:8px; opacity:.65; filter:blur(2px);
+  }
+  .about-frame img{
+    position:relative; z-index:1; border-radius:4px; width:100%; height:560px; object-fit:cover; object-position:top;
   }
 
-}
+  /* ---------- COLLECTION ---------- */
+  .collection{background:var(--ink);}
+  .gallery{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:6px;
+  }
+  .g-item{
+    position:relative; overflow:hidden; cursor:pointer;
+    aspect-ratio:3/4;
+  }
+  .g-item img{
+    width:100%; height:100%; object-fit:cover; object-position:top;
+    transition:transform .7s cubic-bezier(.2,.7,.2,1), filter .5s;
+    filter:saturate(.92) contrast(1.02);
+  }
+  .g-item .ring{
+    position:absolute; inset:0; padding:0;
+    box-shadow: inset 0 0 0 0 transparent;
+    transition:box-shadow .4s ease;
+    pointer-events:none;
+  }
+  .g-item::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(12,10,11,.86) 0%, rgba(12,10,11,0) 46%);
+    opacity:.75; transition:opacity .4s;
+  }
+  .g-caption{
+    position:absolute; left:18px; right:18px; bottom:16px; z-index:2;
+    font-family:var(--serif); font-style:italic; font-size:16px; color:var(--ivory);
+    transform:translateY(6px); opacity:.9; transition:transform .4s, opacity .4s;
+  }
+  .g-item:hover img{transform:scale(1.08);}
+  .g-item:hover .ring{box-shadow: inset 0 0 0 2px rgba(236,47,142,.55);}
+  .g-item:hover .g-caption{transform:translateY(0); opacity:1;}
 
+  /* ---------- WHY ---------- */
+  .why{background:var(--panel);}
+  .why-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:rgba(244,237,225,.08);
+    border:1px solid rgba(244,237,225,.08);
+  }
+  .why-item{
+    background:var(--panel); padding:52px 40px; text-align:center;
+  }
+  .why-item .mark{
+    width:44px; height:44px; margin:0 auto 26px; border-radius:50%;
+    background:var(--grad); display:flex; align-items:center; justify-content:center;
+    font-family:var(--display); font-size:19px; color:#0c0a0b;
+  }
+  .why-item h3{
+    font-family:var(--display); font-size:22px; margin-bottom:14px; letter-spacing:.02em;
+  }
+  .why-item p{color:var(--ivory-dim); font-size:14.5px; line-height:1.75;}
+
+  /* ---------- QUOTE BAND ---------- */
+  .quote-band{
+    padding:130px 24px; text-align:center; position:relative;
+    background:var(--ink);
+  }
+  .quote-band blockquote{
+    max-width:760px; margin:0 auto;
+    font-family:var(--serif); font-style:italic;
+    font-size:clamp(24px,4vw,38px); line-height:1.45; color:var(--ivory);
+  }
+  .quote-band cite{
+    display:block; margin-top:28px; font-style:normal; font-family:var(--sans);
+    font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-soft);
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact{background:var(--panel-2);}
+  .contact-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:0;
+    border:1px solid rgba(244,237,225,.1);
+  }
+  .contact-info{padding:64px; }
+  .contact-info .eyebrow{margin-bottom:16px; display:block;}
+  .contact-info h2{
+    font-family:var(--display); font-size:clamp(28px,4vw,40px); margin-bottom:30px;
+  }
+  .info-row{
+    display:flex; gap:18px; padding:20px 0; border-top:1px solid rgba(244,237,225,.1);
+  }
+  .info-row:last-of-type{border-bottom:1px solid rgba(244,237,225,.1);}
+  .info-row .k{
+    width:24px; flex-shrink:0; font-family:var(--display); color:var(--gold-soft); font-size:18px; padding-top:2px;
+  }
+  .info-row .v strong{display:block; font-size:14px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:4px;}
+  .info-row .v span{font-size:14.5px; color:var(--ivory-dim); line-height:1.6;}
+  .contact-actions{display:flex; gap:16px; margin-top:36px; flex-wrap:wrap;}
+  .map-frame{position:relative; min-height:420px;}
+  .map-frame iframe{width:100%; height:100%; min-height:420px; border:0; filter:grayscale(.4) invert(.92) contrast(.9);}
+  
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:56px 0 36px; background:var(--ink); border-top:1px solid rgba(244,237,225,.08);
+  }
+  .footer-inner{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px;
+  }
+  .footer-brand{display:flex; align-items:center; gap:12px; font-family:var(--display); font-size:17px;}
+  .footer-brand img{width:30px;height:30px;border-radius:50%;}
+  .footer-links{display:flex; gap:30px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ivory-dim);}
+  .footer-links a:hover{color:var(--gold-soft);}
+  .footer-bottom{
+    margin-top:34px; padding-top:24px; border-top:1px solid rgba(244,237,225,.06);
+    font-size:12px; color:var(--ivory-dim); text-align:center;
+  }
+
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- LIGHTBOX ---------- */
+  .lightbox{
+    position:fixed; inset:0; background:rgba(8,6,7,.94); z-index:999;
+    display:flex; align-items:center; justify-content:center; padding:40px;
+    opacity:0; pointer-events:none; transition:opacity .35s ease;
+  }
+  .lightbox.open{opacity:1; pointer-events:auto;}
+  .lightbox img{max-height:86vh; max-width:min(90vw,560px); border-radius:4px; box-shadow:0 30px 80px -20px rgba(0,0,0,.7);}
+  .lightbox .lb-close{
+    position:absolute; top:28px; right:36px; font-size:14px; letter-spacing:.14em; text-transform:uppercase;
+    cursor:pointer; color:var(--ivory-dim); transition:color .2s;
+  }
+  .lightbox .lb-close:hover{color:var(--gold-soft);}
+  .lightbox .lb-cap{
+    position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
+    font-family:var(--serif); font-style:italic; font-size:16px; color:var(--ivory-dim);
+  }
+
+  @media (max-width: 900px){
+    .nav-links{display:none;}
+    .about-grid{grid-template-columns:1fr; gap:44px;}
+    .about-frame img{height:420px;}
+    .gallery{grid-template-columns:repeat(2,1fr);}
+    .why-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    .map-frame{min-height:320px;}
+    .section{padding:84px 0;}
+  }
 </style>
 </head>
-
-
 <body>
 
-
-<!-- =========================
-     NAVIGATION
-========================= -->
-
 <header class="nav" id="siteNav">
-
   <div class="wrap nav-inner">
-
     <a href="#top" class="nav-brand">
-
-      <img
-        src="logoegla.png.jpg"
-        alt="Eglamour"
-      >
-
+      <img src="logoegla.png.jpg" alt="">
       Eglamour
-
     </a>
-
-
     <nav class="nav-links">
-
-      <a href="#koleksioni">
-        Koleksioni
-      </a>
-
-      <a href="#pse-ne">
-        Pse Ne
-      </a>
-
-      <a href="#kontakt">
-        Vizitoni
-      </a>
-
+      <a href="#koleksioni">Koleksioni</a>
+      <a href="#pse-ne">Pse Ne</a>
+      <a href="#kontakt">Vizitoni</a>
     </nav>
-
-
-    <a
-      class="nav-cta"
-      href="https://www.instagram.com/egla_mour"
-      target="_blank"
-      rel="noopener"
-    >
-      Instagram
-    </a>
-
+    <a class="nav-cta" href="https://www.instagram.com/egla_mour" target="_blank" rel="noopener">Instagram</a>
   </div>
-
 </header>
 
-
-
-<!-- =========================
-     HERO
-========================= -->
-
 <section class="hero" id="top">
-
-  <div class="hero-ring">
-
-    <img
-      src="logoegla.png.jpg"
-      alt="Eglamour logo"
-    >
-
-  </div>
-
-
+  <div class="hero-ring"><img src="logoegla.png.jpg" alt="Eglamour logo"></div>
   <div class="hero-content">
-
-    <h1>
-      Eglamour
-    </h1>
-
-    <p class="tag">
-      Classic. Elegant. Egla.
-    </p>
-
-    <p class="quote">
-      "Ju shprehni dëshirën, ne e realizojmë."
-    </p>
-
-
+    <h1>Eglamour</h1>
+    <p class="tag">Classic. Elegant. Egla.</p>
+    <p class="quote">"Ju shprehni dëshirën, ne e realizojmë."</p>
     <div class="hero-actions">
-
-      <a
-        href="#koleksioni"
-        class="btn btn-primary"
-      >
-        Shiko Koleksionin
-      </a>
-
-
-      <a
-        href="https://www.instagram.com/egla_mour"
-        target="_blank"
-        rel="noopener"
-        class="btn btn-outline"
-      >
-        Na ndiqni në Instagram
-      </a>
-
+      <a href="#koleksioni" class="btn btn-primary">Shiko Koleksionin</a>
+      <a href="https://www.instagram.com/egla_mour" target="_blank" rel="noopener" class="btn btn-outline">Na ndiqni në Instagram</a>
     </div>
-
   </div>
-
-
-  <div class="scroll-cue">
-
-    <span>
-      Zbuloni
-    </span>
-
-    <span class="line"></span>
-
-  </div>
-
+  <div class="scroll-cue"><span>Zbuloni</span><span class="line"></span></div>
 </section>
 
-
-
-<!-- =========================
-     ABOUT
-========================= -->
-
-<section
-  class="about section"
-  id="rreth"
->
-
+<section class="about section" id="rreth">
   <div class="wrap about-grid">
-
-
     <div class="about-copy reveal">
-
-      <span class="eyebrow">
-        Rreth Eglamour
-      </span>
-
-
-      <h2>
-        Elegancë e krijuar për çdo çast të veçantë.
-      </h2>
-
-
-      <p>
-        Në zemër të Lushnjës, Eglamour është destinacioni për fustane mbrëmjeje, gala dhe maturash që flasin vetë -- pjesë të zgjedhura me kujdes, prera që flirtojnë me trupin dhe cilësi që ndihet në çdo detaj.
-      </p>
-
-
-      <p>
-        Nga siluetat me pajete deri te copat me rrjedhje mëndafshi, çdo pjesë e koleksionit tonë synon një gjë: t'ju bëjë të ndiheni pikërisht ashtu siç e imagjinoni veten në natën tuaj më të rëndësishme.
-      </p>
-
-
+      <span class="eyebrow">Rreth Eglamour</span>
+      <h2>Elegancë e krijuar për çdo çast të veçantë.</h2>
+      <p>Në zemër të Lushnjës, Eglamour është destinacioni për fustane mbrëmjeje, gala dhe maturash që flasin vetë -- pjesë të zgjedhura me kujdes, prera që flirtojnë me trupin dhe cilësi që ndihet në çdo detaj.</p>
+      <p>Nga siluetat me pajete deri te copat me rrjedhje mëndafshi, çdo pjesë e koleksionit tonë synon një gjë: t'ju bëjë të ndiheni pikërisht ashtu siç e imagjinoni veten në natën tuaj më të rëndësishme.</p>
       <div class="about-stats">
-
-        <div>
-          <strong>269+</strong>
-          <span>Pjesë të Zgjedhura</span>
-        </div>
-
-        <div>
-          <strong>3.7K+</strong>
-          <span>Klientë të Kënaqura</span>
-        </div>
-
-        <div>
-          <strong>100%</strong>
-          <span>Shqipëri me Transport</span>
-        </div>
-
+        <div><strong>269+</strong><span>Pjesë të Zgjedhura</span></div>
+        <div><strong>3.7K+</strong><span>Klientë të Kënaqura</span></div>
+        <div><strong>100%</strong><span>Shqipëri me Transport</span></div>
       </div>
-
     </div>
-
-
     <div class="about-frame reveal">
-
-      <img
-        src="marsid.jpg"
-        alt="Fustan mbrëmjeje rozë nga Eglamour"
-      >
-
+      <img src="marsid.jpg" alt="Fustan mbrëmjeje rozë nga Eglamour">
     </div>
-
   </div>
-
 </section>
 
-
-
-<!-- =========================
-     COLLECTION
-========================= -->
-
-<section
-  class="collection section"
-  id="koleksioni"
->
-
+<!-- KOLEKSIONI DINAMIK NGA FIREBASE -->
+<section class="collection section" id="koleksioni">
   <div class="wrap">
-
-
     <div class="section-head reveal">
-
-      <span class="eyebrow">
-        Koleksioni
-      </span>
-
-
-      <h2>
-        Çdo natë e veçantë,<br>
-        një siluetë e përsosur.
-      </h2>
-
-
-      <div
-        class="rule"
-        style="margin-top:22px;"
-      ></div>
-
+      <span class="eyebrow">Koleksioni</span>
+      <h2>Çdo natë e veçantë,<br>një siluetë e përsosur.</h2>
+      <div class="rule" style="margin-top:22px;"></div>
     </div>
-
-
-
-    <!--
-      FOTOT NGA SUPABASE
-      DO TË FUTEN AUTOMATIKISHT KËTU
-    -->
-
-    <div
-      class="gallery reveal"
-      id="dynamicGallery"
-    >
-
-      <!-- Loading -->
-      <div
-        style="
-          grid-column:1/-1;
-          text-align:center;
-          padding:60px 20px;
-          color:#c9bfb2;
-          font-family:'Cormorant Garamond',serif;
-          font-size:20px;
-        "
-        id="galleryLoading"
-      >
-        Duke ngarkuar koleksionin...
-      </div>
-
+    <div class="gallery reveal" id="gallery-container">
+      <!-- Fotot do të ngarkohen automatikisht këtu nga Firebase -->
+      <p style="text-align:center; color:var(--ivory-dim); grid-column: 1 / -1;">Duke u ngarkuar koleksioni...</p>
     </div>
-
   </div>
-
 </section>
 
-
-
-<!-- =========================
-     WHY
-========================= -->
-
-<section
-  class="why section"
-  id="pse-ne"
->
-
+<section class="why section" id="pse-ne">
   <div class="wrap">
-
-
     <div class="section-head reveal">
-
-      <span class="eyebrow">
-        Pse Eglamour
-      </span>
-
-      <h2>
-        Premisat tona
-      </h2>
-
-      <div
-        class="rule"
-        style="margin-top:22px;"
-      ></div>
-
+      <span class="eyebrow">Pse Eglamour</span>
+      <h2>Premisat tona</h2>
+      <div class="rule" style="margin-top:22px;"></div>
     </div>
-
   </div>
-
-
   <div class="wrap reveal">
-
     <div class="why-grid">
-
-
       <div class="why-item">
-
-        <div class="mark">
-          E
-        </div>
-
-        <h3>
-          Cilësi Premium
-        </h3>
-
-        <p>
-          Pëlhura të zgjedhura me kujdes dhe punime të kujdesshme, për copa që zgjasin përtej një sezoni.
-        </p>
-
+        <div class="mark">E</div>
+        <h3>Cilësi Premium</h3>
+        <p>Pëlhura të zgjedhura me kujdes dhe punime të kujdesshme, për copa që zgjasin përtej një sezoni.</p>
       </div>
-
-
       <div class="why-item">
-
-        <div class="mark">
-          E
-        </div>
-
-        <h3>
-          Stil për Çdo Rast
-        </h3>
-
-        <p>
-          Nga matura te dasma, nga gala te ftesa cocktail -- koleksion i larmishëm për çdo trup dhe moment.
-        </p>
-
+        <div class="mark">E</div>
+        <h3>Stil për Çdo Rast</h3>
+        <p>Nga matura te dasma, nga gala te ftesa cocktail -- koleksion i larmishëm për çdo trup dhe moment.</p>
       </div>
-
-
       <div class="why-item">
-
-        <div class="mark">
-          E
-        </div>
-
-        <h3>
-          Transport në Shqipëri
-        </h3>
-
-        <p>
-          Porositni nga kudo -- ju e dërgojmë fustanin e ëndrrave tuaja në çdo cep të Shqipërisë.
-        </p>
-
+        <div class="mark">E</div>
+        <h3>Transport në Shqipëri</h3>
+        <p>Porositni nga kudo -- ju e dërgojmë fustanin e ëndrrave tuaja në çdo cep të Shqipërisë.</p>
       </div>
-
-
     </div>
-
   </div>
-
 </section>
-
-
-
-<!-- =========================
-     QUOTE
-========================= -->
 
 <section class="quote-band">
-
   <div class="reveal">
-
-    <blockquote>
-      "Elegancë, stil dhe cilësi në çdo detaj -- kjo është premtimi ynë në çdo fustan që del nga Eglamour."
-    </blockquote>
-
-    <cite>
-      -- Egla, Themeluese e Eglamour
-    </cite>
-
+    <blockquote>"Elegancë, stil dhe cilësi në çdo detaj -- kjo është premtimi ynë në çdo fustan që del nga Eglamour."</blockquote>
+    <cite>-- Egla, Themeluese e Eglamour</cite>
   </div>
-
 </section>
 
-
-
-<!-- =========================
-     CONTACT
-========================= -->
-
-<section
-  class="contact section"
-  id="kontakt"
-  style="padding-top:0;"
->
-
+<section class="contact section" id="kontakt" style="padding-top:0;">
   <div class="wrap">
-
     <div class="contact-grid reveal">
-
-
       <div class="contact-info">
-
-        <span class="eyebrow">
-          Na Vizitoni
-        </span>
-
-
-        <h2>
-          Ejani të provoni koleksionin tonë
-        </h2>
-
-
+        <span class="eyebrow">Na Vizitoni</span>
+        <h2>Ejani të provoni koleksionin tonë</h2>
         <div class="info-row">
-
-          <div class="k">
-            ✦
-          </div>
-
-          <div class="v">
-
-            <strong>
-              Adresa
-            </strong>
-
-            <span>
-              Meteopol Center -- Kati 2, Lushnjë, Shqipëri
-            </span>
-
-          </div>
-
+          <div class="k">✦</div>
+          <div class="v"><strong>Adresa</strong><span>Meteopol Center -- Kati 2, Lushnjë, Shqipëri</span></div>
         </div>
-
-
         <div class="info-row">
-
-          <div class="k">
-            ✦
-          </div>
-
-          <div class="v">
-
-            <strong>
-              Transporti
-            </strong>
-
-            <span>
-              Dërgesa në gjithë Shqipërinë
-            </span>
-
-          </div>
-
+          <div class="k">✦</div>
+          <div class="v"><strong>Transporti</strong><span>Dërgesa në gjithë Shqipërinë</span></div>
         </div>
-
-
         <div class="info-row">
-
-          <div class="k">
-            ✦
-          </div>
-
-          <div class="v">
-
-            <strong>
-              Instagram
-            </strong>
-
-            <span>
-              @egla_mour
-            </span>
-
-          </div>
-
+          <div class="k">✦</div>
+          <div class="v"><strong>Instagram</strong><span>@egla_mour</span></div>
         </div>
-
-
         <div class="contact-actions">
-
-          <a
-            href="https://www.instagram.com/egla_mour"
-            target="_blank"
-            rel="noopener"
-            class="btn btn-primary"
-          >
-            Shkruani në Instagram
-          </a>
-
-
-          <a
-            href="https://maps.google.com/?q=Meteopol+Center+Lushnje"
-            target="_blank"
-            rel="noopener"
-            class="btn btn-outline"
-          >
-            Hap në Google Maps
-          </a>
-
+          <a href="https://www.instagram.com/egla_mour" target="_blank" rel="noopener" class="btn btn-primary">Shkruani në Instagram</a>
+          <a href="https://maps.google.com/?q=Meteopol+Center+Lushnje" target="_blank" rel="noopener" class="btn btn-outline">Hap në Google Maps</a>
         </div>
-
       </div>
-
-
       <div class="map-frame">
-
-        <iframe
-          loading="lazy"
-          src="https://maps.google.com/maps?q=Meteopol%20Center%20Lushnje%20Albania&t=&z=15&ie=UTF8&iwloc=&output=embed"
-          allowfullscreen
-          title="Harta e Eglamour, Meteopol Center Lushnjë"
-        ></iframe>
-
+        <iframe loading="lazy" src="https://maps.google.com/maps?q=Meteopol%20Center%20Lushnje%20Albania&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen title="Harta e Eglamour, Meteopol Center Lushnjë"></iframe>
       </div>
-
-
     </div>
-
   </div>
-
 </section>
-
-
-
-<!-- =========================
-     FOOTER
-========================= -->
 
 <footer>
-
   <div class="wrap">
-
     <div class="footer-inner">
-
-
-      <a
-        href="#top"
-        class="footer-brand"
-      >
-
-        <img
-          src="logoegla.png.jpg"
-          alt="Eglamour"
-        >
-
-        Eglamour
-
-      </a>
-
-
+      <a href="#top" class="footer-brand"><img src="logoegla.png.jpg" alt="">Eglamour</a>
       <div class="footer-links">
-
-        <a href="#koleksioni">
-          Koleksioni
-        </a>
-
-        <a href="#pse-ne">
-          Pse Ne
-        </a>
-
-        <a href="#kontakt">
-          Kontakt
-        </a>
-
-        <a
-          href="https://www.instagram.com/egla_mour"
-          target="_blank"
-          rel="noopener"
-        >
-          Instagram
-        </a>
-
+        <a href="#koleksioni">Koleksioni</a>
+        <a href="#pse-ne">Pse Ne</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="https://www.instagram.com/egla_mour" target="_blank" rel="noopener">Instagram</a>
       </div>
-
-
     </div>
-
-
-    <div class="footer-bottom">
-
-      © 2026 Eglamour · Meteopol Center, Lushnjë · Classic. Elegant. Egla.
-
-    </div>
-
+    <div class="footer-bottom">© 2026 Eglamour · Meteopol Center, Lushnjë · Classic. Elegant. Egla.</div>
   </div>
-
 </footer>
 
-
-
-<!-- =========================
-     LIGHTBOX
-========================= -->
-
-<div
-  class="lightbox"
-  id="lightbox"
->
-
-  <span
-    class="lb-close"
-    id="lbClose"
-  >
-    Mbyll ✕
-  </span>
-
-
-  <img
-    id="lbImg"
-    src=""
-    alt=""
-  >
-
-
-  <div
-    class="lb-cap"
-    id="lbCap"
-  ></div>
-
+<div class="lightbox" id="lightbox">
+  <span class="lb-close" id="lbClose">Mbyll ✕</span>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-cap" id="lbCap"></div>
 </div>
 
-
-
-<!-- =========================
-     JAVASCRIPT
-========================= -->
-
 <script>
+  // nav scroll state
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
 
+  // reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.15});
+  revealEls.forEach(el => io.observe(el));
 
-/* =========================================
-   SUPABASE CONFIGURATION
-========================================= */
+  // lightbox function (handles dynamically loaded items too)
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCap = document.getElementById('lbCap');
 
-const SUPABASE_URL =
-  "https://mssafqnydjpuwypxlkfe.supabase.co";
-
-const SUPABASE_ANON_KEY =
-  "sb_publishable_C1EU2sQMWoxaQzpqVa0KlQ_mqix8KyF";
-
-
-const supabaseClient =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
-
-
-
-/* =========================================
-   NAV SCROLL
-========================================= */
-
-const nav =
-  document.getElementById("siteNav");
-
-
-window.addEventListener(
-  "scroll",
-  () => {
-
-    nav.classList.toggle(
-      "scrolled",
-      window.scrollY > 40
-    );
-
-  },
-  {
-    passive:true
-  }
-);
-
-
-
-/* =========================================
-   REVEAL ON SCROLL
-========================================= */
-
-const revealEls =
-  document.querySelectorAll(".reveal");
-
-
-const io =
-  new IntersectionObserver(
-    (entries) => {
-
-      entries.forEach(
-        (entry) => {
-
-          if(entry.isIntersecting){
-
-            entry.target.classList.add(
-              "in"
-            );
-
-            io.unobserve(
-              entry.target
-            );
-
-          }
-
-        }
-      );
-
-    },
-    {
-      threshold:.15
+  document.addEventListener('click', (e) => {
+    const item = e.target.closest('.g-item');
+    if (item) {
+      const img = item.querySelector('img');
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lbCap.textContent = item.dataset.caption || '';
+      lb.classList.add('open');
     }
-  );
+  });
 
+  document.getElementById('lbClose').addEventListener('click', () => lb.classList.remove('open'));
+  lb.addEventListener('click', (e) => { if(e.target === lb) lb.classList.remove('open'); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') lb.classList.remove('open'); });
+</script>
 
-revealEls.forEach(
-  (el) => io.observe(el)
-);
+<!-- FIREBASE SCRIPT Për Leximin e Fotove -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+  // VENDOS KËTU KONFIGURIMIN TEND NGA FIREBASE
+  const firebaseConfig = {
+  apiKey: "AIzaSyAxyXNIj6yxlg34gvG9UjVGaJ1hp24jQhU",
+  authDomain: "eglamour-96ef2.firebaseapp.com",
+  projectId: "eglamour-96ef2",
+  storageBucket: "eglamour-96ef2.firebasestorage.app",
+  messagingSenderId: "642095280499",
+  appId: "1:642095280499:web:6c6fce141296f0ecb95506",
+  measurementId: "G-YBRHT8YF16"
+};
 
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-/* =========================================
-   LIGHTBOX
-========================================= */
+  async function ngarkoKoleksionin() {
+    const container = document.getElementById('gallery-container');
 
-const lb =
-  document.getElementById(
-    "lightbox"
-  );
-
-
-const lbImg =
-  document.getElementById(
-    "lbImg"
-  );
-
-
-const lbCap =
-  document.getElementById(
-    "lbCap"
-  );
-
-
-function openLightbox(item){
-
-  const img =
-    item.querySelector("img");
-
-  if(!img) return;
-
-
-  lbImg.src =
-    img.src;
-
-
-  lbImg.alt =
-    img.alt ||
-    "Fustan Eglamour";
-
-
-  lbCap.textContent =
-    item.dataset.caption ||
-    "Eglamour";
-
-
-  lb.classList.add(
-    "open"
-  );
-
-}
-
-
-function closeLightbox(){
-
-  lb.classList.remove(
-    "open"
-  );
-
-}
-
-
-document
-  .getElementById("lbClose")
-  .addEventListener(
-    "click",
-    closeLightbox
-  );
-
-
-lb.addEventListener(
-  "click",
-  (event) => {
-
-    if(
-      event.target === lb
-    ){
-
-      closeLightbox();
-
-    }
-
-  }
-);
-
-
-document.addEventListener(
-  "keydown",
-  (event) => {
-
-    if(
-      event.key === "Escape"
-    ){
-
-      closeLightbox();
-
-    }
-
-  }
-);
-
-
-
-/* =========================================
-   LOAD GALLERY FROM SUPABASE
-========================================= */
-
-async function loadWebsiteGallery(){
-
-  const gallery =
-    document.getElementById(
-      "dynamicGallery"
-    );
-
-
-  const loading =
-    document.getElementById(
-      "galleryLoading"
-    );
-
-
-  if(!gallery) return;
-
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .storage
-        .from("gallery")
-      .list("", {
-  limit: 100
-});
-          
-
-
-    /* =========================
-       ERROR
-    ========================= */
-
-    if(error){
-
-      console.error(
-        "Gabim Supabase:",
-        error
-      );
-
-      if(loading){
-
-        loading.textContent =
-          "Galeria nuk mund të ngarkohej.";
-
+    try {
+      const querySnapshot = await getDocs(collection(db, "koleksioni"));
+      
+      if(querySnapshot.empty) {
+        container.innerHTML = `<p style="text-align:center; color:var(--ivory-dim); grid-column: 1 / -1;">Nuk ka ende foto të shtuara.</p>`;
+        return;
       }
 
-      return;
-
-    }
-
-
-    /* =========================
-       NO FILES
-    ========================= */
-
-    if(
-      !data ||
-      data.length === 0
-    ){
-
-      if(loading){
-
-        loading.textContent =
-          "Nuk ka ende foto në koleksion.";
-
-      }
-
-      return;
-
-    }
-
-
-    /* =========================
-       CLEAR GALLERY
-    ========================= */
-
-    gallery.innerHTML = "";
-
-
-    /* =========================
-       CREATE IMAGES
-    ========================= */
-
-    data.forEach(
-      (file) => {
-
-        if(!file.name)
-          return;
-
-
-        /*
-         * Skip folders
-         */
-
-        if(
-          file.name.endsWith("/")
-        ){
-
-          return;
-
-        }
-
-
-        /*
-         * Get public URL
-         */
-
-        const {
-          data:urlData
-        } =
-          supabaseClient
-            .storage
-            .from("gallery")
-            .getPublicUrl(
-              file.name
-            );
-
-
-        if(
-          !urlData ||
-          !urlData.publicUrl
-        ){
-
-          console.error(
-            "Nuk u gjet URL për:",
-            file.name
-          );
-
-          return;
-
-        }
-
-
-        /*
-         * Caption
-         */
-
-        let caption =
-          file.name
-            .replace(
-              /\.[^/.]+$/,
-              ""
-            )
-            .replace(
-              /[-_]/g,
-              " "
-            )
-            .trim();
-
-
-        if(!caption){
-
-          caption =
-            "Eglamour";
-
-        }
-
-
-        /*
-         * Create gallery item
-         */
-
-        const item =
-          document.createElement(
-            "div"
-          );
-
-
-        item.className =
-          "g-item";
-
-
-        item.dataset.caption =
-          caption;
-
-
-        item.innerHTML = `
-
-          <img
-            src="${urlData.publicUrl}"
-            alt="Fustan Eglamour"
-            loading="lazy"
-          >
-
+      container.innerHTML = ""; // Pastro mesazhin e ngarkimit
+      
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const titulli = data.titull || 'Eglamour Produkt';
+        
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('g-item');
+        itemDiv.setAttribute('data-caption', titulli);
+        
+        itemDiv.innerHTML = `
+          <img src="${data.imageUrl}" alt="${titulli}">
           <div class="ring"></div>
-
-          <div class="g-caption">
-            ${caption}
-          </div>
-
+          <div class="g-caption">${titulli}</div>
         `;
-
-
-        /*
-         * Open lightbox
-         */
-
-        item.addEventListener(
-          "click",
-          () => {
-
-            openLightbox(
-              item
-            );
-
-          }
-        );
-
-
-        /*
-         * Add to gallery
-         */
-
-        gallery.appendChild(
-          item
-        );
-
-      }
-    );
-
-
-    console.log(
-      "Galeria u ngarkua me sukses.",
-      data.length,
-      "foto."
-    );
-
-  }
-
-
-  catch(error){
-
-    console.error(
-      "Gabim:",
-      error
-    );
-
-
-    if(loading){
-
-      loading.textContent =
-        "Ndodhi një gabim gjatë ngarkimit të galerise.";
-
+        container.appendChild(itemDiv);
+      });
+    } catch (e) {
+      console.error("Gabim në marrjen e të dhënave: ", e);
+      container.innerHTML = `<p style="text-align:center; color:red; grid-column: 1 / -1;">Gabim në ngarkimin e fotove.</p>`;
     }
-
   }
 
-}
-
-
-
-/* =========================================
-   START
-========================================= */
-
-loadWebsiteGallery();
-
-
+  ngarkoKoleksionin();
 </script>
 
 </body>
