@@ -1165,6 +1165,16 @@ footer{
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+const SUPABASE_URL = "https://mssafqnydjpuwypxlkfe.supabase.co";
+const SUPABASE_KEY = "sb_publishable_C1EU2sQMWoxaQzpqVa0KlQ_mqix8KyF4";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+</script>
+
+<script>
 
 const SUPABASE_URL =
   "https://mssafqnydjpuwypxlkfe.supabase.co";
@@ -1937,316 +1947,82 @@ document.addEventListener(
    SUPABASE GALLERY
 ========================================= */
 
-async function loadWebsiteGallery(){
+async function loadWebsiteGallery() {
 
-  const gallery =
-    document.getElementById(
-      "dynamicGallery"
-    );
+  const gallery = document.getElementById("dynamicGallery");
 
-
-  if(!gallery){
-
-    console.error(
-      "dynamicGallery nuk u gjet."
-    );
-
+  if (!gallery) {
+    console.error("Nuk u gjet dynamicGallery");
     return;
-
   }
 
-
-  /*
-    Shfaq loading
-  */
-
-  gallery.innerHTML = `
-    <div class="gallery-loading">
-      Duke ngarkuar koleksionin...
-    </div>
-  `;
-
-
-  try{
-
-
-    /*
-      Merr të gjitha fotot nga
-      bucket-i PUBLIC "gallery"
-    */
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .storage
-        .from("gallery")
-        .list(
-          "",
-          {
-            limit:100,
-            sortBy:{
-              column:"created_at",
-              order:"desc"
-            }
-          }
-        );
-
-
-    /*
-      Nëse Supabase kthen error
-    */
-
-    if(error){
-
-      console.error(
-        "Gabim Supabase:",
-        error
-      );
-
-      gallery.innerHTML = `
-        <div class="gallery-loading">
-          Nuk u arrit të ngarkohej koleksioni.
-        </div>
-      `;
-
-      return;
-
-    }
-
-
-    /*
-      Nëse bucket-i është bosh
-    */
-
-    if(!data || data.length === 0){
-
-      gallery.innerHTML = `
-        <div class="gallery-loading">
-          Koleksioni është aktualisht bosh.
-        </div>
-      `;
-
-      return;
-
-    }
-
-
-    /*
-      Pastro loading
-    */
-
-    gallery.innerHTML = "";
-
-
-    /*
-      Për çdo file në Supabase
-    */
-
-    data.forEach(
-      (file) => {
-
-
-        /*
-          Mos merr foldera
-        */
-
-        if(!file.name){
-
-          return;
-
-        }
-
-
-        /*
-          Vetëm imazhet
-        */
-
-        const extension =
-          file.name
-            .split(".")
-            .pop()
-            .toLowerCase();
-
-
-        const allowedImages = [
-          "jpg",
-          "jpeg",
-          "png",
-          "webp",
-          "gif"
-        ];
-
-
-        if(
-          !allowedImages.includes(
-            extension
-          )
-        ){
-
-          return;
-
-        }
-
-
-        /*
-          Merr URL publike
-        */
-
-        const {
-          data:urlData
-        } =
-          supabaseClient
-            .storage
-            .from("gallery")
-            .getPublicUrl(
-              file.name
-            );
-
-
-        if(
-          !urlData ||
-          !urlData.publicUrl
-        ){
-
-          return;
-
-        }
-
-
-        /*
-          Krijo elementin e galerisë
-        */
-
-        const item =
-          document.createElement("div");
-
-
-        item.className =
-          "g-item";
-
-
-        /*
-          Emri i fotos
-          pa extension
-        */
-
-        const cleanName =
-          file.name
-            .replace(/\.[^/.]+$/, "")
-            .replace(/[_-]+/g," ")
-            .trim();
-
-
-        const caption =
-          cleanName ||
-          "Eglamour";
-
-
-        /*
-          HTML i fotos
-        */
-
-        item.innerHTML = `
-
-          <img
-            src="${urlData.publicUrl}"
-            alt="Fustan Eglamour"
-            loading="lazy"
-          >
-
-          <div class="ring"></div>
-
-          <div class="g-caption">
-            ${caption}
-          </div>
-
-        `;
-
-
-        /*
-          Klikimi hap lightbox
-        */
-
-        item.addEventListener(
-          "click",
-          () => {
-
-            const image =
-              item.querySelector("img");
-
-
-            openLightbox(
-              image.src,
-              image.alt,
-              caption
-            );
-
-          }
-        );
-
-
-        /*
-          Fut foton në galeri
-        */
-
-        gallery.appendChild(
-          item
-        );
-
+  const { data, error } = await supabaseClient.storage
+    .from("gallery")
+    .list("", {
+      limit: 100,
+      sortBy: {
+        column: "created_at",
+        order: "desc"
       }
-    );
+    });
 
+  if (error) {
+    console.error("Gabim Supabase:", error);
+    return;
+  }
 
-    /*
-      Nëse kishte vetëm file jo-imazhe
-    */
+  gallery.innerHTML = "";
 
-    if(
-      gallery.children.length === 0
-    ){
-
-      gallery.innerHTML = `
-        <div class="gallery-loading">
-          Nuk u gjetën fotografi në gallery.
-        </div>
-      `;
-
-    }
-
-
-    /*
-      Animacioni reveal
-    */
-
-    gallery.classList.add("in");
-
-
-  }catch(error){
-
-
-    console.error(
-      "Gabim gjatë lidhjes me Supabase:",
-      error
-    );
-
-
+  if (!data || data.length === 0) {
     gallery.innerHTML = `
-      <div class="gallery-loading">
-        Ndodhi një problem gjatë ngarkimit të fotove.
-      </div>
+      <p style="
+        grid-column:1/-1;
+        text-align:center;
+        color:#c9bfb2;
+        padding:40px;
+      ">
+        Nuk ka ende foto në koleksion.
+      </p>
+    `;
+    return;
+  }
+
+  data.forEach(file => {
+
+    if (!file.name) return;
+
+    const { data: publicUrlData } =
+      supabaseClient.storage
+        .from("gallery")
+        .getPublicUrl(file.name);
+
+    const item = document.createElement("div");
+    item.className = "g-item";
+
+    item.innerHTML = `
+      <img
+        src="${publicUrlData.publicUrl}"
+        alt="Fustan Eglamour"
+        loading="lazy"
+      >
+      <div class="ring"></div>
+      <div class="g-caption">Eglamour</div>
     `;
 
-  }
+    item.addEventListener("click", () => {
 
+      const img = item.querySelector("img");
+
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lbCap.textContent = "Eglamour";
+
+      lb.classList.add("open");
+    });
+
+    gallery.appendChild(item);
+  });
 }
-
-
-
-/* =========================================
-   START GALLERY
-========================================= */
 
 loadWebsiteGallery();
 
