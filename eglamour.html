@@ -1174,21 +1174,6 @@ const supabaseClient = supabase.createClient(
 );
 </script>
 
-<script>
-
-const SUPABASE_URL =
-  "https://mssafqnydjpuwypxlkfe.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_C1EU2sQMWoxaQzpqVa0KlQ_mqix8KyF";
-
-const supabaseClient =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-</script>
 
 </head>
 
@@ -1947,6 +1932,7 @@ document.addEventListener(
    SUPABASE GALLERY
 ========================================= */
 
+
 async function loadWebsiteGallery() {
 
   const gallery = document.getElementById("dynamicGallery");
@@ -1956,78 +1942,125 @@ async function loadWebsiteGallery() {
     return;
   }
 
-  const { data, error } = await supabaseClient.storage
-    .from("gallery")
-    .list("", {
-      limit: 100,
-      sortBy: {
-        column: "created_at",
-        order: "desc"
-      }
-    });
+  gallery.innerHTML = `
+    <div class="gallery-loading">
+      Duke ngarkuar koleksionin...
+    </div>
+  `;
 
-  if (error) {
-    console.error("Gabim Supabase:", error);
-    return;
-  }
+  try {
 
-  gallery.innerHTML = "";
+    const { data, error } = await supabaseClient.storage
+      .from("gallery")
+      .list("", {
+        limit: 100,
+        sortBy: {
+          column: "created_at",
+          order: "desc"
+        }
+      });
 
-  if (!data || data.length === 0) {
-    gallery.innerHTML = `
-      <p style="
-        grid-column:1/-1;
-        text-align:center;
-        color:#c9bfb2;
-        padding:40px;
-      ">
-        Nuk ka ende foto në koleksion.
-      </p>
-    `;
-    return;
-  }
+    if (error) {
+      console.error("Gabim Supabase:", error);
 
-  data.forEach(file => {
+      gallery.innerHTML = `
+        <div class="gallery-loading">
+          Nuk u ngarkuan fotot.
+        </div>
+      `;
 
-    if (!file.name) return;
+      return;
+    }
 
-    const { data: publicUrlData } =
-      supabaseClient.storage
-        .from("gallery")
-        .getPublicUrl(file.name);
+    console.log("Fotot nga Supabase:", data);
 
-    const item = document.createElement("div");
-    item.className = "g-item";
+    if (!data || data.length === 0) {
 
-    item.innerHTML = `
-      <img
-        src="${publicUrlData.publicUrl}"
-        alt="Fustan Eglamour"
-        loading="lazy"
-      >
-      <div class="ring"></div>
-      <div class="g-caption">Eglamour</div>
-    `;
+      gallery.innerHTML = `
+        <div class="gallery-loading">
+          Nuk ka foto në koleksion.
+        </div>
+      `;
 
-    item.addEventListener("click", () => {
+      return;
+    }
+
+    gallery.innerHTML = "";
+
+    data.forEach(file => {
+
+      if (!file.name) return;
+
+      const { data: urlData } =
+        supabaseClient.storage
+          .from("gallery")
+          .getPublicUrl(file.name);
+
+      const imageUrl = urlData.publicUrl;
+
+      const item = document.createElement("div");
+
+      item.className = "g-item";
+
+      item.innerHTML = `
+        <img
+          src="${imageUrl}"
+          alt="Fustan Eglamour"
+          loading="lazy"
+        >
+
+        <div class="ring"></div>
+
+        <div class="g-caption">
+          Eglamour
+        </div>
+      `;
 
       const img = item.querySelector("img");
 
-      lbImg.src = img.src;
-      lbImg.alt = img.alt;
-      lbCap.textContent = "Eglamour";
+      img.addEventListener("error", () => {
 
-      lb.classList.add("open");
+        console.error(
+          "Fotoja nuk u hap:",
+          imageUrl
+        );
+
+      });
+
+      item.addEventListener("click", () => {
+
+        openLightbox(
+          imageUrl,
+          "Fustan Eglamour",
+          "Eglamour"
+        );
+
+      });
+
+      gallery.appendChild(item);
+
     });
 
-    gallery.appendChild(item);
-  });
+  } catch (err) {
+
+    console.error(
+      "Gabim i papritur:",
+      err
+    );
+
+    gallery.innerHTML = `
+      <div class="gallery-loading">
+        Ndodhi një problem gjatë ngarkimit të fotove.
+      </div>
+    `;
+  }
 }
 
+
 loadWebsiteGallery();
-
-
 </script>
+
+
 
 
 </body>
