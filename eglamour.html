@@ -68,7 +68,7 @@
     padding:14px 0;
   }
   .nav-inner{display:flex;align-items:center;justify-content:space-between;}
-  .nav-brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:19px;letter-spacing:.06em;cursor:pointer;}
+  .nav-brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:19px;letter-spacing:.06em;}
 .nav-brand img{
   width:40px;
   height:40px;
@@ -166,9 +166,6 @@
     padding:16px 34px; border-radius:2px;
     display:inline-flex; align-items:center; gap:10px;
     transition:transform .3s ease, box-shadow .3s ease, opacity .3s ease;
-    border:none;
-    cursor:pointer;
-    font-family:var(--sans);
   }
   .btn-primary{
     background:var(--grad); color:#0c0a0b; font-weight:600;
@@ -176,18 +173,8 @@
   .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 30px -12px rgba(236,47,142,.55);}
   .btn-outline{
     border:1px solid rgba(244,237,225,.35);
-    background:transparent;
-    color:var(--ivory);
   }
   .btn-outline:hover{border-color:var(--gold); background:rgba(201,164,99,.08); transform:translateY(-2px);}
-  .btn-danger{
-    background:#b91c1c; color:#fff; font-weight:600;
-  }
-  .btn-danger:hover{transform:translateY(-2px); box-shadow:0 14px 30px -12px rgba(185,28,28,.55);}
-  .btn-success{
-    background:#15803d; color:#fff; font-weight:600;
-  }
-  .btn-success:hover{transform:translateY(-2px); box-shadow:0 14px 30px -12px rgba(21,128,61,.55);}
 
   .scroll-cue{
     position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
@@ -262,6 +249,10 @@
   .gallery{
     display:grid; grid-template-columns:repeat(4,1fr); gap:6px;
   }
+  .gallery.loading, .gallery.empty{display:block;}
+  .gallery-msg{
+    text-align:center; font-family:var(--serif); font-style:italic; color:var(--ivory-dim); font-size:17px; padding:60px 0;
+  }
   .g-item{
     position:relative; overflow:hidden; cursor:pointer;
     aspect-ratio:3/4;
@@ -291,178 +282,6 @@
   .g-item:hover img{transform:scale(1.08);}
   .g-item:hover .ring{box-shadow: inset 0 0 0 2px rgba(236,47,142,.55);}
   .g-item:hover .g-caption{transform:translateY(0); opacity:1;}
-
-  /* Admin delete button */
-  .admin-delete-btn {
-    position:absolute;
-    top:10px;
-    right:10px;
-    z-index:10;
-    background:rgba(185,28,28,.9);
-    color:#fff;
-    border:none;
-    border-radius:50%;
-    width:32px;
-    height:32px;
-    font-size:16px;
-    cursor:pointer;
-    opacity:0;
-    transition:opacity .3s;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .admin-mode .admin-delete-btn {
-    opacity:1;
-  }
-  .admin-delete-btn:hover {
-    background:#991b1b;
-    transform:scale(1.1);
-  }
-
-  /* ---------- ADMIN PANEL ---------- */
-  .admin-panel {
-    background:var(--panel-2);
-    border:1px solid rgba(201,164,99,.2);
-    border-radius:8px;
-    padding:40px;
-    margin-top:40px;
-    display:none;
-  }
-  .admin-panel.active {
-    display:block;
-  }
-  .admin-panel h3 {
-    font-family:var(--display);
-    font-size:24px;
-    margin-bottom:24px;
-    color:var(--gold-soft);
-  }
-  .admin-form {
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-  }
-  .admin-form input,
-  .admin-form textarea {
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(244,237,225,.15);
-    color:var(--ivory);
-    padding:12px 16px;
-    border-radius:4px;
-    font-family:var(--sans);
-    font-size:14px;
-    width:100%;
-  }
-  .admin-form input:focus,
-  .admin-form textarea:focus {
-    outline:2px solid var(--gold-soft);
-    border-color:transparent;
-  }
-  .admin-form textarea {
-    grid-column:1/-1;
-    resize:vertical;
-    min-height:60px;
-  }
-  .admin-form .btn {
-    grid-column:1/-1;
-    justify-self:start;
-  }
-  .admin-close-btn {
-    margin-top:20px;
-    background:transparent;
-    border:1px solid rgba(244,237,225,.2);
-    color:var(--ivory-dim);
-    padding:10px 24px;
-    border-radius:4px;
-    cursor:pointer;
-    font-size:11px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    transition:.3s;
-  }
-  .admin-close-btn:hover {
-    border-color:var(--gold-soft);
-    color:var(--gold-soft);
-  }
-  .admin-item-count {
-    color:var(--ivory-dim);
-    font-size:14px;
-    margin-bottom:20px;
-  }
-
-  /* ---------- LOGIN MODAL ---------- */
-  .login-overlay {
-    position:fixed;
-    inset:0;
-    background:rgba(8,6,7,.92);
-    z-index:1000;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-    backdrop-filter:blur(8px);
-  }
-  .login-overlay.active {
-    display:flex;
-  }
-  .login-box {
-    background:var(--panel-2);
-    border:1px solid rgba(201,164,99,.3);
-    border-radius:12px;
-    padding:48px;
-    max-width:420px;
-    width:100%;
-    text-align:center;
-    animation:fadeUp .5s ease;
-  }
-  .login-box h3 {
-    font-family:var(--display);
-    font-size:28px;
-    color:var(--gold-soft);
-    margin-bottom:8px;
-  }
-  .login-box p {
-    color:var(--ivory-dim);
-    font-size:14px;
-    margin-bottom:28px;
-  }
-  .login-box input {
-    width:100%;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(244,237,225,.15);
-    color:var(--ivory);
-    padding:14px 18px;
-    border-radius:4px;
-    font-family:var(--sans);
-    font-size:16px;
-    margin-bottom:16px;
-    transition:border-color .3s;
-  }
-  .login-box input:focus {
-    outline:none;
-    border-color:var(--gold-soft);
-  }
-  .login-box .btn {
-    width:100%;
-    justify-content:center;
-    margin-top:8px;
-  }
-  .login-error {
-    color:#ef4444;
-    font-size:13px;
-    margin-top:12px;
-    display:none;
-  }
-  .login-error.show {
-    display:block;
-  }
-  .login-box .hint {
-    margin-top:16px;
-    font-size:12px;
-    color:var(--ivory-dim);
-    opacity:.5;
-  }
 
   /* ---------- WHY ---------- */
   .why{background:var(--panel);}
@@ -571,9 +390,6 @@
     .contact-grid{grid-template-columns:1fr;}
     .map-frame{min-height:320px;}
     .section{padding:84px 0;}
-    .admin-form{grid-template-columns:1fr;}
-    .admin-panel{padding:24px;}
-    .login-box{padding:32px 24px;}
   }
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
@@ -585,7 +401,7 @@
 
 <header class="nav" id="siteNav">
   <div class="wrap nav-inner">
-    <a href="#top" class="nav-brand" id="logoBtn">
+    <a href="#top" class="nav-brand">
       <img src="logoegla.png.jpg" alt="">
       Eglamour
     </a>
@@ -620,7 +436,7 @@
       <p>Në zemër të Lushnjës, Eglamour është destinacioni për fustane mbrëmjeje, gala dhe maturash që flasin vetë -- pjesë të zgjedhura me kujdes, prera që flirtojnë me trupin dhe cilësi që ndihet në çdo detaj.</p>
       <p>Nga siluetat me pajete deri te copat me rrjedhje mëndafshi, çdo pjesë e koleksionit tonë synon një gjë: t'ju bëjë të ndiheni pikërisht ashtu siç e imagjinoni veten në natën tuaj më të rëndësishme.</p>
       <div class="about-stats">
-        <div><strong id="totalItems">269+</strong><span>Pjesë të Zgjedhura</span></div>
+        <div><strong>269+</strong><span>Pjesë të Zgjedhura</span></div>
         <div><strong>3.7K+</strong><span>Klientë të Kënaqura</span></div>
         <div><strong>100%</strong><span>Shqipëri me Transport</span></div>
       </div>
@@ -637,23 +453,9 @@
       <span class="eyebrow">Koleksioni</span>
       <h2>Çdo natë e veçantë,<br>një siluetë e përsosur.</h2>
       <div class="rule" style="margin-top:22px;"></div>
-      <p style="margin-top:12px; font-size:14px; color:var(--ivory-dim);" id="photoCount"></p>
     </div>
-    <div class="gallery" id="galleryContainer">
-      <!-- Galeria do të mbushet nga JavaScript -->
-    </div>
-    
-    <!-- Admin Panel -->
-    <div class="admin-panel" id="adminPanel">
-      <h3>📸 Menaxho Koleksionin</h3>
-      <div class="admin-item-count" id="adminItemCount">0 foto në koleksion</div>
-      <div class="admin-form">
-        <input type="text" id="imageUrl" placeholder="URL e fotos (p.sh. 'fustan.jpg')" required>
-        <input type="text" id="imageCaption" placeholder="Titulli (p.sh. 'Fustani i Kuq')" required>
-        <textarea id="imageDescription" placeholder="Përshkrimi (opsional)"></textarea>
-        <button class="btn btn-primary" id="addImageBtn">➕ Shto Foto</button>
-      </div>
-      <button class="admin-close-btn" id="closeAdminBtn">✕ Mbyll Panelin</button>
+    <div class="gallery reveal" id="gallery">
+      <p class="gallery-msg">Duke ngarkuar koleksionin...</p>
     </div>
   </div>
 </section>
@@ -739,331 +541,76 @@
   </div>
 </footer>
 
-<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
   <span class="lb-close" id="lbClose">Mbyll ✕</span>
   <img id="lbImg" src="" alt="">
   <div class="lb-cap" id="lbCap"></div>
 </div>
 
-<!-- LOGIN MODAL -->
-<div class="login-overlay" id="loginModal">
-  <div class="login-box">
-    <h3>🔐 Admin</h3>
-    <p>Vetëm për pronarin e biznesit</p>
-    <input type="password" id="loginPassword" placeholder="Shkruani fjalëkalimin..." autocomplete="off">
-    <button class="btn btn-primary" id="loginBtn">Hyni në Panel</button>
-    <div class="login-error" id="loginError">❌ Fjalëkalim i gabuar!</div>
-    <div class="hint">Kliko 3 herë logon për të hapur hyrjen</div>
-  </div>
-</div>
-
 <script>
-  // ============================================================
-  //  SISTEMI I LOGIN - FJALËKALIMI: "egla2026"
-  // ============================================================
-  const ADMIN_PASSWORD = 'egla2026'; // <-- NDRYSHOJE KËTU!
-  let isLoggedIn = false;
-
-  // Kontrollo nëse është loguar tashmë (session)
-  function checkLoginStatus() {
-    const session = sessionStorage.getItem('eglamourAdmin');
-    if (session === 'true') {
-      isLoggedIn = true;
-      return true;
-    }
-    return false;
-  }
-
-  // Funksioni për të loguar
-  function login(password) {
-    if (password === ADMIN_PASSWORD) {
-      isLoggedIn = true;
-      sessionStorage.setItem('eglamourAdmin', 'true');
-      document.getElementById('loginModal').classList.remove('active');
-      document.getElementById('loginError').classList.remove('show');
-      // Aktivizo admin mode
-      document.body.classList.add('admin-mode');
-      document.getElementById('adminPanel').classList.add('active');
-      renderGallery();
-      // Scroll te admin panel
-      setTimeout(() => {
-        document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 300);
-      return true;
-    } else {
-      document.getElementById('loginError').classList.add('show');
-      return false;
-    }
-  }
-
-  // Funksioni për të dalë nga admin
-  function logout() {
-    isLoggedIn = false;
-    sessionStorage.removeItem('eglamourAdmin');
-    document.body.classList.remove('admin-mode');
-    document.getElementById('adminPanel').classList.remove('active');
-    renderGallery();
-  }
-
-  // ============================================================
-  //  MEMYR (MENAXHIM) I KOLEKSIONIT ME LOCALSTORAGE
-  // ============================================================
-
-  const DEFAULT_IMAGES = [
-    { id: 1, url: 'kuqe.jpg', caption: 'Fustani i Kuq Gala', description: 'Fustani i Kuq Gala — i kuq, i gjatë, elegant dhe me draperi.' },
-    { id: 2, url: 'pikpik.jpg', caption: 'Elegancë me Pika', description: 'Elegancë me Pika — fustani i bardhë me pika të zeza, i shkurtër.' },
-    { id: 3, url: 'zeza.jpg', caption: 'Misteri i Zi', description: 'Misteri i Zi — fustani i gjatë i zi, shumë elegant.' },
-    { id: 4, url: 'dkuqe.jpg', caption: 'Glamour i Kuq', description: 'Glamour i Kuq — fustani i kuq i gjatë, me prerje dhe draperi.' },
-    { id: 5, url: 'verdh.jpg', caption: 'Hijeshi e Artë', description: 'Hijeshi e Artë — fustani i verdhë i gjatë.' },
-    { id: 6, url: 'blu.jpg', caption: 'Bluja Mbretërore', description: 'Bluja Mbretërore — fustani blu i gjatë, me detaj të mbështjellë në pjesën e sipërme.' },
-    { id: 7, url: 'pika.jpg', caption: 'Elegancë me Pika', description: 'Elegancë me Pika — fustani i zi/kafe me pika të bardha, më casual-chic.' },
-    { id: 8, url: 'jeshil.jpg', caption: 'Shkëlqim Smeraldi', description: 'Shkëlqim Smeraldi — fustani i gjatë jeshil me temina dhe shkëlqim.' }
-  ];
-
-  let nextId = 9;
-
-  function getImages() {
-    const stored = localStorage.getItem('eglamourGallery');
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        if (parsed && parsed.length > 0) {
-          const maxId = parsed.reduce((max, img) => Math.max(max, img.id || 0), 0);
-          nextId = maxId + 1;
-          return parsed;
-        }
-      } catch(e) {}
-    }
-    localStorage.setItem('eglamourGallery', JSON.stringify(DEFAULT_IMAGES));
-    nextId = DEFAULT_IMAGES.length + 1;
-    return DEFAULT_IMAGES;
-  }
-
-  function saveImages(images) {
-    localStorage.setItem('eglamourGallery', JSON.stringify(images));
-  }
-
-  function renderGallery() {
-    const images = getImages();
-    const container = document.getElementById('galleryContainer');
-    const photoCount = document.getElementById('photoCount');
-    const adminCount = document.getElementById('adminItemCount');
-    const totalItems = document.getElementById('totalItems');
-
-    const count = images.length;
-    photoCount.textContent = count + ' foto në koleksion';
-    adminCount.textContent = count + ' foto në koleksion';
-    if (totalItems) totalItems.textContent = count + '+';
-
-    let html = '';
-    images.forEach((img, index) => {
-      const captionText = img.caption || 'Foto ' + (index + 1);
-      const descText = img.description || captionText;
-      html += `
-        <div class="g-item" data-caption="${descText}" data-id="${img.id}">
-          <img src="${img.url}" alt="${captionText}" loading="lazy">
-          <div class="ring"></div>
-          <div class="g-caption">${captionText}</div>
-          <button class="admin-delete-btn" data-id="${img.id}" title="Fshi këtë foto">✕</button>
-        </div>
-      `;
-    });
-    container.innerHTML = html;
-
-    // Lightbox events
-    document.querySelectorAll('.g-item').forEach(item => {
-      item.addEventListener('click', function(e) {
-        if (e.target.classList.contains('admin-delete-btn')) return;
-        const img = this.querySelector('img');
-        const lb = document.getElementById('lightbox');
-        const lbImg = document.getElementById('lbImg');
-        const lbCap = document.getElementById('lbCap');
-        lbImg.src = img.src;
-        lbImg.alt = img.alt;
-        lbCap.textContent = this.dataset.caption || '';
-        lb.classList.add('open');
-      });
-    });
-
-    // Delete buttons
-    document.querySelectorAll('.admin-delete-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        if (!isLoggedIn) {
-          alert('Ju duhet të hyni në admin për të fshirë foto!');
-          return;
-        }
-        const id = parseInt(this.dataset.id);
-        if (confirm('A jeni të sigurt që doni të fshini këtë foto?')) {
-          deleteImage(id);
-        }
-      });
-    });
-
-    // Shfaq/fshih butonat e fshirjes sipas statusit të login
-    const isAdmin = isLoggedIn && document.body.classList.contains('admin-mode');
-    document.querySelectorAll('.admin-delete-btn').forEach(btn => {
-      btn.style.display = isAdmin ? 'flex' : 'none';
-    });
-  }
-
-  function addImage(url, caption, description) {
-    if (!isLoggedIn) {
-      alert('Ju duhet të hyni në admin për të shtuar foto!');
-      return false;
-    }
-    if (!url || !caption) {
-      alert('Ju lutem plotësoni URL-në dhe titullin!');
-      return false;
-    }
-    const images = getImages();
-    const newImage = {
-      id: nextId++,
-      url: url.trim(),
-      caption: caption.trim(),
-      description: description ? description.trim() : caption.trim()
-    };
-    images.push(newImage);
-    saveImages(images);
-    renderGallery();
-    return true;
-  }
-
-  function deleteImage(id) {
-    if (!isLoggedIn) return;
-    let images = getImages();
-    images = images.filter(img => img.id !== id);
-    saveImages(images);
-    renderGallery();
-  }
-
-  // ============================================================
-  //  EVENTET
-  // ============================================================
-
-  // Render galerinë në ngarkim
-  document.addEventListener('DOMContentLoaded', function() {
-    // Kontrollo nëse ka session aktiv
-    if (checkLoginStatus()) {
-      document.body.classList.add('admin-mode');
-      document.getElementById('adminPanel').classList.add('active');
-    }
-    renderGallery();
-  });
-
-  // Hap login modal me 3 klikime në logo
-  let logoClickCount = 0;
-  let logoClickTimer = null;
-  document.getElementById('logoBtn').addEventListener('click', function(e) {
-    e.preventDefault();
-    
-    // Nëse është loguar, dalje
-    if (isLoggedIn) {
-      if (confirm('A doni të dilni nga paneli admin?')) {
-        logout();
-      }
-      return;
-    }
-
-    logoClickCount++;
-    clearTimeout(logoClickTimer);
-    logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1000);
-    if (logoClickCount >= 3) {
-      logoClickCount = 0;
-      document.getElementById('loginModal').classList.add('active');
-      document.getElementById('loginPassword').value = '';
-      document.getElementById('loginError').classList.remove('show');
-      setTimeout(() => document.getElementById('loginPassword').focus(), 200);
-    }
-  });
-
-  // Butoni i login
-  document.getElementById('loginBtn').addEventListener('click', function() {
-    const password = document.getElementById('loginPassword').value;
-    login(password);
-  });
-
-  // Login me Enter
-  document.getElementById('loginPassword').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      document.getElementById('loginBtn').click();
-    }
-  });
-
-  // Mbyll login modal me klik jashtë
-  document.getElementById('loginModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-      this.classList.remove('active');
-    }
-  });
-
-  // Shto foto
-  document.getElementById('addImageBtn').addEventListener('click', function() {
-    if (!isLoggedIn) {
-      alert('Ju duhet të hyni në admin për të shtuar foto!');
-      document.getElementById('loginModal').classList.add('active');
-      return;
-    }
-    const url = document.getElementById('imageUrl').value;
-    const caption = document.getElementById('imageCaption').value;
-    const description = document.getElementById('imageDescription').value;
-    if (addImage(url, caption, description)) {
-      document.getElementById('imageUrl').value = '';
-      document.getElementById('imageCaption').value = '';
-      document.getElementById('imageDescription').value = '';
-    }
-  });
-
-  // Shto foto me Enter
-  document.querySelectorAll('#imageUrl, #imageCaption, #imageDescription').forEach(input => {
-    input.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        document.getElementById('addImageBtn').click();
-      }
-    });
-  });
-
-  // Mbyll admin panel
-  document.getElementById('closeAdminBtn').addEventListener('click', function() {
-    if (isLoggedIn) {
-      logout();
-    } else {
-      document.body.classList.remove('admin-mode');
-      document.getElementById('adminPanel').classList.remove('active');
-      renderGallery();
-    }
-  });
-
-  // Lightbox mbyllje
-  document.getElementById('lbClose').addEventListener('click', function() {
-    document.getElementById('lightbox').classList.remove('open');
-  });
-  document.getElementById('lightbox').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('open');
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
-  });
-
-  // Nav scroll
+  // nav scroll state
   const nav = document.getElementById('siteNav');
-  window.addEventListener('scroll', function() {
+  window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
-  }, { passive: true });
+  }, {passive:true});
 
-  // Reveal on scroll
+  // reveal on scroll
   const revealEls = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: .15 });
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.15});
   revealEls.forEach(el => io.observe(el));
 
+  // lightbox
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCap = document.getElementById('lbCap');
+  function openLightbox(src, alt, caption){
+    lbImg.src = src;
+    lbImg.alt = alt;
+    lbCap.textContent = caption || '';
+    lb.classList.add('open');
+  }
+  document.getElementById('lbClose').addEventListener('click', () => lb.classList.remove('open'));
+  lb.addEventListener('click', (e) => { if(e.target === lb) lb.classList.remove('open'); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') lb.classList.remove('open'); });
+
+  // ---- DYNAMIC GALLERY (jsonbin.io) ----
+  const BIN_ID = "6a8d32e1da38895dfe0d742a";
+  const MASTER_KEY = "$2a$10$L0c0eMDm1WjKMfEOOck5keKcR.gbiXBt4arV.k8aVsp8T3H2PlNlG";
+  const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
+
+  async function loadGallery(){
+    const galleryEl = document.getElementById('gallery');
+    try{
+      const res = await fetch(BIN_URL, { headers: { 'X-Master-Key': MASTER_KEY } });
+      if(!res.ok) throw new Error('fetch failed');
+      const data = await res.json();
+      const images = (data.record && data.record.images) || [];
+
+      if(images.length === 0){
+        galleryEl.innerHTML = '<p class="gallery-msg">Koleksioni po përditësohet së shpejti.</p>';
+        return;
+      }
+
+      galleryEl.innerHTML = images.map(img => `
+        <div class="g-item" data-src="${img.url}" data-caption="${(img.caption || '').replace(/"/g,'&quot;')}">
+          <img src="${img.url}" alt="${(img.caption || 'Fustan Eglamour').replace(/"/g,'&quot;')}" loading="lazy">
+          <div class="ring"></div>
+          <div class="g-caption">${img.caption || ''}</div>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('.g-item').forEach(item => {
+        item.addEventListener('click', () => {
+          openLightbox(item.dataset.src, item.dataset.caption, item.dataset.caption);
+        });
+      });
+    }catch(err){
+      galleryEl.innerHTML = '<p class="gallery-msg">Koleksioni po përditësohet së shpejti.</p>';
+    }
+  }
+  loadGallery();
 </script>
 
 </body>
