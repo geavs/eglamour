@@ -1,72 +1,239 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin - E-Glamour</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eglamour — Menaxho Galerinë</title>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0c0a0b; --panel:#161215; --panel-2:#1d181b;
+    --ivory:#f4ede1; --ivory-dim:#c9bfb2;
+    --gold:#c9a463; --gold-soft:#e7cfa0;
+    --grad: linear-gradient(115deg, #f5a623 0%, #ec2f8e 52%, #8e2de2 100%);
+    --serif:'Cormorant Garamond', serif; --display:'Italiana', serif; --sans:'Montserrat', sans-serif;
+    --danger:#e0546b; --ok:#6fbf8b;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--ink); color:var(--ivory); font-family:var(--sans); font-weight:300; min-height:100vh;}
+  .wrap{max-width:760px; margin:0 auto; padding:40px 20px 100px;}
+  h1{font-family:var(--display); font-size:clamp(28px,6vw,42px); letter-spacing:.02em; margin-bottom:6px;}
+  .sub{font-family:var(--serif); font-style:italic; color:var(--gold-soft); font-size:16px; margin-bottom:36px;}
+
+  /* login */
+  #loginScreen{
+    min-height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:18px; padding:24px;
+  }
+  #loginScreen h1{text-align:center;}
+  #loginScreen input{
+    width:100%; max-width:320px; padding:14px 16px; border-radius:4px; border:1px solid rgba(244,237,225,.25);
+    background:var(--panel); color:var(--ivory); font-family:var(--sans); font-size:15px;
+  }
+  #loginScreen button{
+    max-width:320px; width:100%;
+  }
+  #loginError{color:var(--danger); font-size:13px; display:none;}
+
+  .card{background:var(--panel); border:1px solid rgba(244,237,225,.1); border-radius:6px; padding:26px; margin-bottom:26px;}
+  label{display:block; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-soft); margin-bottom:8px;}
+  input[type="text"], input[type="file"]{
+    width:100%; padding:12px 14px; border-radius:4px; border:1px solid rgba(244,237,225,.2);
+    background:var(--panel-2); color:var(--ivory); font-family:var(--sans); font-size:14px; margin-bottom:18px;
+  }
+  button{
+    font-family:var(--sans); font-size:12px; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
+    padding:14px 26px; border-radius:4px; border:none; cursor:pointer; background:var(--grad); color:#0c0a0b;
+    transition:opacity .2s;
+  }
+  button:hover{opacity:.9;}
+  button:disabled{opacity:.4; cursor:not-allowed;}
+  button.secondary{background:transparent; border:1px solid rgba(244,237,225,.3); color:var(--ivory);}
+  button.danger{background:var(--danger); color:#fff;}
+
+  #status{font-size:13px; margin-top:10px; min-height:18px;}
+  #status.ok{color:var(--ok);}
+  #status.err{color:var(--danger);}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:14px;}
+  .item{
+    position:relative; border-radius:6px; overflow:hidden; background:var(--panel-2);
+    border:1px solid rgba(244,237,225,.1);
+  }
+  .item img{width:100%; height:150px; object-fit:cover; display:block;}
+  .item .cap{font-family:var(--serif); font-style:italic; font-size:13px; padding:8px 10px; color:var(--ivory-dim);}
+  .item .del{
+    position:absolute; top:8px; right:8px; background:rgba(20,15,17,.85); color:var(--danger);
+    border:1px solid rgba(224,84,107,.5); font-size:10px; padding:6px 10px; letter-spacing:.08em;
+  }
+  .empty{color:var(--ivory-dim); font-family:var(--serif); font-style:italic; padding:30px 0; text-align:center;}
+  .spinner{
+    width:16px; height:16px; border:2px solid rgba(244,237,225,.3); border-top-color:var(--gold-soft);
+    border-radius:50%; display:inline-block; animation:spin .7s linear infinite; vertical-align:-3px; margin-right:8px;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .logout{position:fixed; top:16px; right:16px; font-size:11px; opacity:.7;}
+</style>
 </head>
-<body style="font-family: Arial; padding: 40px; text-align: center;">
-    <h2>Shto Foton e Re te Koleksioni</h2>
-    
-    <input type="text" id="titullProduktit" placeholder="Emri i produktit (opsionale)" style="padding: 10px; width: 300px; margin-bottom: 10px;"><br>
-    <input type="file" id="imageFile" accept="image/*" style="margin-bottom: 15px;"><br>
-    <button id="uploadBtn" style="padding: 10px 20px; background: black; color: white; border: none; cursor: pointer;">Ngarko Foton</button>
-    
-    <p id="statusMsg" style="margin-top: 15px; font-weight: bold;"></p>
+<body>
 
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-      import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-      import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<div id="loginScreen">
+  <h1>Eglamour</h1>
+  <p class="sub">Paneli i Galerisë</p>
+  <input type="text" id="pwInput" placeholder="Fjalëkalimi" autocomplete="off">
+  <p id="loginError">Fjalëkalim i gabuar.</p>
+  <button onclick="tryLogin()">Hyr</button>
+</div>
 
-      const firebaseConfig = {
-  apiKey: "AIzaSyAxyXNIj6yxlg34gvG9UjVGaJ1hp24jQhU",
-  authDomain: "eglamour-96ef2.firebaseapp.com",
-  projectId: "eglamour-96ef2",
-  storageBucket: "eglamour-96ef2.firebasestorage.app",
-  messagingSenderId: "642095280499",
-  appId: "1:642095280499:web:6c6fce141296f0ecb95506",
-  measurementId: "G-YBRHT8YF16"
-};
+<div class="wrap" id="adminScreen" style="display:none;">
+  <a href="#" class="logout" onclick="logout()">Dil ⏻</a>
+  <h1>Menaxho Galerinë</h1>
+  <p class="sub">Shto ose fshi foto nga koleksioni</p>
 
-      const app = initializeApp(firebaseConfig);
-      const storage = getStorage(app);
-      const db = getFirestore(app);
+  <div class="card">
+    <label>Shto Foto të Re</label>
+    <input type="file" id="fileInput" accept="image/*">
+    <label>Titulli i Fustanit (p.sh. "Fustani i Kuq Gala")</label>
+    <input type="text" id="capInput" placeholder="Shkruaj titullin...">
+    <button id="uploadBtn" onclick="uploadImage()">Ngarko Foton</button>
+    <div id="status"></div>
+  </div>
 
-      document.getElementById('uploadBtn').addEventListener('click', async () => {
-        const fileInput = document.getElementById('imageFile');
-        const titullInput = document.getElementById('titullProduktit').value;
-        const statusMsg = document.getElementById('statusMsg');
+  <div class="card">
+    <label>Foto Aktuale (<span id="countLabel">0</span>)</label>
+    <div class="grid" id="gallery"></div>
+  </div>
+</div>
 
-        if (fileInput.files.length === 0) {
-            alert("Zgjidhni një foto fillimisht!");
-            return;
-        }
+<script>
+  // ---- CONFIG ----
+  const PASSWORD = "eglamour2026"; // ndrysho këtu fjalëkalimin kur të duash
+  const CLOUD_NAME = "fgnejuxs";
+  const UPLOAD_PRESET = "eglamour_gallery";
+  const BIN_ID = "6a8d32e1da38895dfe0d742a";
+  const MASTER_KEY = "$2a$10$L0c0eMDm1WjKMfEOOck5keKcR.gbiXBt4arV.k8aVsp8T3H2PlNlG";
+  const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
-        const file = fileInput.files[0];
-        const storageRef = ref(storage, 'koleksioni/' + Date.now() + '_' + file.name);
+  function tryLogin(){
+    const val = document.getElementById('pwInput').value;
+    if(val === PASSWORD){
+      sessionStorage.setItem('eglamour_admin', '1');
+      showAdmin();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+    }
+  }
+  document.getElementById('pwInput').addEventListener('keydown', e => { if(e.key === 'Enter') tryLogin(); });
 
-        statusMsg.innerText = "Duke u ngarkuar...";
+  function logout(){ sessionStorage.removeItem('eglamour_admin'); location.reload(); }
 
-        try {
-            const snapshot = await uploadBytes(storageRef, file);
-            const downloadURL = await getDownloadURL(snapshot.ref);
+  function showAdmin(){
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminScreen').style.display = 'block';
+    loadGallery();
+  }
+  if(sessionStorage.getItem('eglamour_admin') === '1'){ showAdmin(); }
 
-            await addDoc(collection(db, "koleksioni"), {
-                imageUrl: downloadURL,
-                titull: titullInput,
-                krijuarMe: new Date()
-            });
+  function setStatus(msg, type){
+    const el = document.getElementById('status');
+    el.textContent = msg || '';
+    el.className = type || '';
+  }
 
-            statusMsg.innerText = "Foto u ngarkua me sukses!";
-            statusMsg.style.color = "green";
-            fileInput.value = "";
-            document.getElementById('titullProduktit').value = "";
-        } catch (error) {
-            console.error("Gabim:", error);
-            statusMsg.innerText = "Ndodhi një gabim gjatë ngarkimit.";
-            statusMsg.style.color = "red";
-        }
+  async function getImages(){
+    const res = await fetch(`${BIN_URL}/latest`, { headers: { 'X-Master-Key': MASTER_KEY } });
+    if(!res.ok){
+      const body = await res.text().catch(()=> '');
+      throw new Error(`GET ${res.status}: ${body}`);
+    }
+    const data = await res.json();
+    return (data.record && data.record.images) || [];
+  }
+
+  async function saveImages(images){
+    const res = await fetch(BIN_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
+      body: JSON.stringify({ images })
+    });
+    if(!res.ok){
+      const body = await res.text().catch(()=> '');
+      throw new Error(`PUT ${res.status}: ${body}`);
+    }
+  }
+
+  async function loadGallery(){
+    const grid = document.getElementById('gallery');
+    grid.innerHTML = '<p class="empty">Duke ngarkuar...</p>';
+    try{
+      const images = await getImages();
+      document.getElementById('countLabel').textContent = images.length;
+      if(images.length === 0){
+        grid.innerHTML = '<p class="empty">Ende s\'ka foto. Shto të parën më sipër.</p>';
+        return;
+      }
+      grid.innerHTML = images.map((img, i) => `
+        <div class="item">
+          <img src="${img.url}" alt="${img.caption || ''}">
+          <div class="cap">${img.caption || ''}</div>
+          <button class="del" onclick="deleteImage(${i})">Fshi</button>
+        </div>
+      `).join('');
+    }catch(err){
+      grid.innerHTML = `<p class="empty">Gabim: ${err.message || err}</p>`;
+    }
+  }
+
+  async function deleteImage(index){
+    if(!confirm('Ta heq këtë foto nga galeria?')) return;
+    try{
+      const images = await getImages();
+      images.splice(index, 1);
+      await saveImages(images);
+      loadGallery();
+    }catch(err){
+      alert('Gabim gjatë fshirjes. Provo përsëri.');
+    }
+  }
+
+  async function uploadImage(){
+    const fileInput = document.getElementById('fileInput');
+    const capInput = document.getElementById('capInput');
+    const btn = document.getElementById('uploadBtn');
+    const file = fileInput.files[0];
+    if(!file){ setStatus('Zgjidh një foto së pari.', 'err'); return; }
+
+    btn.disabled = true;
+    setStatus('Duke ngarkuar foton...', '');
+
+    try{
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', UPLOAD_PRESET);
+
+      const cloudRes = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+        method: 'POST', body: formData
       });
-    </script>
+      if(!cloudRes.ok){
+        const body = await cloudRes.text().catch(()=> '');
+        throw new Error(`Cloudinary ${cloudRes.status}: ${body}`);
+      }
+      const cloudData = await cloudRes.json();
+
+      setStatus('Duke ruajtur në galeri...', '');
+      const images = await getImages();
+      images.push({ url: cloudData.secure_url, caption: capInput.value.trim() });
+      await saveImages(images);
+
+      fileInput.value = '';
+      capInput.value = '';
+      setStatus('U shtua me sukses! ✓', 'ok');
+      loadGallery();
+    }catch(err){
+      setStatus(`Gabim: ${err.message || err}`, 'err');
+    }finally{
+      btn.disabled = false;
+    }
+  }
+</script>
 </body>
 </html>
